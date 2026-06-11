@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EHN Family Coach AI</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { min-height: 100vh; background: #0F1E35; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; color: #F8F5F0; }
@@ -35,10 +36,12 @@
     .btn-generate { width: 100%; background: linear-gradient(135deg, #2A7F7F, #1d5f5f); border: none; border-radius: 12px; padding: 18px; color: #F8F5F0; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.2s; letter-spacing: 0.5px; font-family: inherit; }
     .btn-generate:disabled { background: rgba(42,127,127,0.4); cursor: not-allowed; }
     .btn-generate:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(42,127,127,0.3); }
-    .btn-row { display: flex; gap: 12px; margin-bottom: 16px; }
-    .btn-copy { flex: 1; background: rgba(42,127,127,0.15); border: 1px solid rgba(42,127,127,0.4); border-radius: 10px; padding: 14px; color: #2A7F7F; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .btn-row { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+    .btn-copy { flex: 1; min-width: 120px; background: rgba(42,127,127,0.15); border: 1px solid rgba(42,127,127,0.4); border-radius: 10px; padding: 12px; color: #2A7F7F; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; text-align: center; }
     .btn-copy:hover { background: rgba(42,127,127,0.25); }
-    .btn-regen { flex: 1; background: rgba(248,245,240,0.05); border: 1px solid rgba(248,245,240,0.15); border-radius: 10px; padding: 14px; color: rgba(248,245,240,0.7); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .btn-pdf { flex: 1; min-width: 120px; background: rgba(232,165,75,0.15); border: 1px solid rgba(232,165,75,0.4); border-radius: 10px; padding: 12px; color: #E8A54B; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; text-align: center; }
+    .btn-pdf:hover { background: rgba(232,165,75,0.25); }
+    .btn-regen { flex: 1; min-width: 120px; background: rgba(248,245,240,0.05); border: 1px solid rgba(248,245,240,0.15); border-radius: 10px; padding: 12px; color: rgba(248,245,240,0.7); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; text-align: center; }
     .btn-back { background: transparent; border: 1px solid rgba(248,245,240,0.2); border-radius: 8px; padding: 8px 16px; color: rgba(248,245,240,0.6); font-size: 13px; cursor: pointer; font-family: inherit; }
     .error-box { background: rgba(232,165,75,0.1); border: 1px solid rgba(232,165,75,0.4); border-radius: 8px; padding: 12px 16px; color: #E8A54B; font-size: 14px; margin-bottom: 16px; }
     .info-box { background: rgba(232,165,75,0.08); border: 1px solid rgba(232,165,75,0.2); border-radius: 8px; padding: 12px 16px; font-size: 12px; color: rgba(232,165,75,0.8); margin-bottom: 16px; }
@@ -50,11 +53,9 @@
     .letterhead-brand-name { font-size: 17px; font-weight: 800; color: #0F1E35; margin-top: 2px; }
     .letterhead-date { font-size: 12px; color: #888; }
     .letter-body { font-family: Georgia, 'Times New Roman', serif; font-size: 15px; line-height: 1.9; color: #1a1a1a; white-space: pre-wrap; }
-    /* TABS */
     .tabs { display: flex; gap: 0; margin-bottom: 20px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(248,245,240,0.1); }
     .tab { flex: 1; padding: 14px; text-align: center; font-size: 14px; font-weight: 600; cursor: pointer; background: rgba(248,245,240,0.03); color: rgba(248,245,240,0.5); border: none; font-family: inherit; transition: all 0.15s; }
     .tab.active { background: rgba(42,127,127,0.2); color: #2A7F7F; }
-    /* COACHING GUIDE */
     .guide-preview { background: #F8F5F0; border-radius: 12px; padding: 40px 48px; box-shadow: 0 8px 40px rgba(0,0,0,0.4); margin-bottom: 16px; }
     .guide-header { border-bottom: 2px solid #0F1E35; padding-bottom: 16px; margin-bottom: 28px; }
     .guide-title { font-size: 20px; font-weight: 800; color: #0F1E35; }
@@ -64,9 +65,7 @@
   </style>
 </head>
 <body>
-
 <div id="app">
-  <!-- Header -->
   <div class="header">
     <div>
       <div class="header-brand"><span class="header-dot"></span>EHN Nouveau Départ</div>
@@ -75,10 +74,7 @@
     </div>
     <div class="badge">🔒 Internal Use Only</div>
   </div>
-
   <div class="main">
-
-    <!-- INPUT FORM -->
     <div id="formView">
       <div class="card">
         <span class="card-label">Step 1 — Names (optional but recommended)</span>
@@ -87,7 +83,6 @@
           <div><p class="field-label">Patient / loved one</p><input type="text" id="patientName" placeholder="e.g. Mathieu" /></div>
         </div>
       </div>
-
       <div class="card">
         <span class="card-label">Step 2 — Select tone</span>
         <div class="grid-2">
@@ -97,7 +92,6 @@
           <div class="option-tile" data-tone="urgent" onclick="selectTone(this)"><div class="title">⚡ Urgent & Crisis-Aware</div><div class="desc">Immediate action required, safety concerns present</div></div>
         </div>
       </div>
-
       <div class="card">
         <span class="card-label">Step 3 — Language</span>
         <div class="grid-3">
@@ -106,49 +100,42 @@
           <div class="lang-tile" data-lang="both" onclick="selectLang(this)">🔄 Les deux / Both</div>
         </div>
       </div>
-
       <div class="card">
         <span class="card-label">Step 4 — Paste call notes / intake recap</span>
         <p class="field-label" style="margin-bottom:12px;">Paste your Salesforce notes, JotForm recap, or any call summary. The more detail, the more personalized the output.</p>
-        <textarea id="notes" placeholder="Ex: Caller is the mother of a 32-year-old male. He's been using opioids for 4 years, lost his job last month, has two young kids..." oninput="updateCharCount()"></textarea>
+        <textarea id="notes" placeholder="Ex: Caller is the mother of a 32-year-old male. He's been using opioids for 4 years..." oninput="updateCharCount()"></textarea>
         <p class="char-count" id="charCount"></p>
       </div>
-
       <div id="errorBox" class="error-box hidden"></div>
       <button class="btn-generate" id="generateBtn" onclick="generateAll()">✉️ Generate Letter + Conversation Guide</button>
-      <p class="loading-text hidden" id="loadingText">Generating personalized letter and coaching guide... this may take 20–30 seconds.</p>
+      <p class="loading-text hidden" id="loadingText">Generating letter and coaching guide... this may take 20–30 seconds.</p>
     </div>
 
-    <!-- OUTPUT VIEW -->
     <div id="outputView" class="hidden">
       <div class="letter-header-row">
         <div>
-          <h2 style="font-size:20px;font-weight:700;">✅ Ready to send</h2>
+          <h2 style="font-size:20px;font-weight:700;">✅ Ready to use</h2>
           <p style="font-size:13px;color:rgba(248,245,240,0.4);margin-top:4px;" id="outputMeta"></p>
         </div>
         <button class="btn-back" onclick="resetForm()">← New</button>
       </div>
-
-      <!-- TABS -->
       <div class="tabs">
         <button class="tab active" onclick="showTab('letter', this)">✉️ Letter for <span id="tabPatientName">Loved One</span></button>
-        <button class="tab" onclick="showTab('guide', this)">📋 Coaching Guide for <span id="tabSenderName">Family</span></button>
+        <button class="tab" onclick="showTab('guide', this)">📋 Guide for <span id="tabSenderName">Family</span></button>
       </div>
 
       <!-- LETTER TAB -->
       <div id="letterTab">
         <div class="letter-preview">
           <div class="letterhead">
-            <div>
-              <div class="letterhead-brand-label">Préparé avec l'aide de</div>
-              <div class="letterhead-brand-name">EHN Nouveau Départ</div>
-            </div>
+            <div><div class="letterhead-brand-label">Préparé avec l'aide de</div><div class="letterhead-brand-name">EHN Nouveau Départ</div></div>
             <div class="letterhead-date" id="letterDate"></div>
           </div>
           <div class="letter-body" id="letterBody"></div>
         </div>
         <div class="btn-row">
-          <button class="btn-copy" id="copyLetterBtn" onclick="copyText('letterBody', 'copyLetterBtn')">📋 Copy Letter</button>
+          <button class="btn-copy" id="copyLetterBtn" onclick="copyText('letterBody','copyLetterBtn')">📋 Copy</button>
+          <button class="btn-pdf" onclick="downloadPDF('letter')">📄 Download PDF</button>
           <button class="btn-regen" onclick="generateAll()">🔄 Regenerate</button>
         </div>
       </div>
@@ -163,102 +150,40 @@
           <div class="guide-body" id="guideBody"></div>
         </div>
         <div class="btn-row">
-          <button class="btn-copy" id="copyGuideBtn" onclick="copyText('guideBody', 'copyGuideBtn')">📋 Copy Guide</button>
+          <button class="btn-copy" id="copyGuideBtn" onclick="copyText('guideBody','copyGuideBtn')">📋 Copy</button>
+          <button class="btn-pdf" onclick="downloadPDF('guide')">📄 Download PDF</button>
           <button class="btn-regen" onclick="generateAll()">🔄 Regenerate</button>
         </div>
       </div>
 
-      <div class="info-box">💡 Review both before sending. Personalize further if needed. These are starting points, not final outputs.</div>
+      <div class="info-box">💡 Review both before sharing. These are starting points — personalize further if needed.</div>
     </div>
-
   </div>
 </div>
 
 <script>
   let selectedTone = "loving";
   let selectedLang = "french";
+  let currentPatientName = "leur proche";
+  let currentSenderName = "la famille";
 
-  const toneDescs = {
-    loving: "Warm, emotional, focuses on love and family bonds",
-    firm: "Clear boundaries, consequences, non-negotiable urgency",
-    hopeful: "Recovery-focused, emphasizes a better future",
-    urgent: "Immediate action required, safety concerns present",
-  };
+  const toneDescs = { loving: "Warm, emotional, focuses on love and family bonds", firm: "Clear boundaries, consequences, non-negotiable urgency", hopeful: "Recovery-focused, emphasizes a better future", urgent: "Immediate action required, safety concerns present" };
   const toneLabels = { loving: "💛 Loving", firm: "🛑 Firm", hopeful: "🌱 Hopeful", urgent: "⚡ Urgent" };
   const langLabels = { french: "🇨🇦 Français", english: "🇺🇸 English", both: "🔄 Both" };
 
-  function selectTone(el) {
-    document.querySelectorAll(".option-tile").forEach(t => t.classList.remove("selected"));
-    el.classList.add("selected");
-    selectedTone = el.dataset.tone;
-  }
-
-  function selectLang(el) {
-    document.querySelectorAll(".lang-tile").forEach(t => t.classList.remove("selected"));
-    el.classList.add("selected");
-    selectedLang = el.dataset.lang;
-  }
-
-  function updateCharCount() {
-    const n = document.getElementById("notes").value;
-    document.getElementById("charCount").textContent = n.length > 0 ? n.length + " characters" : "";
-  }
-
-  function showTab(tab, el) {
-    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-    el.classList.add("active");
-    document.getElementById("letterTab").classList.toggle("hidden", tab !== "letter");
-    document.getElementById("guideTab").classList.toggle("hidden", tab !== "guide");
-  }
+  function selectTone(el) { document.querySelectorAll(".option-tile").forEach(t => t.classList.remove("selected")); el.classList.add("selected"); selectedTone = el.dataset.tone; }
+  function selectLang(el) { document.querySelectorAll(".lang-tile").forEach(t => t.classList.remove("selected")); el.classList.add("selected"); selectedLang = el.dataset.lang; }
+  function updateCharCount() { const n = document.getElementById("notes").value; document.getElementById("charCount").textContent = n.length > 0 ? n.length + " characters" : ""; }
+  function showTab(tab, el) { document.querySelectorAll(".tab").forEach(t => t.classList.remove("active")); el.classList.add("active"); document.getElementById("letterTab").classList.toggle("hidden", tab !== "letter"); document.getElementById("guideTab").classList.toggle("hidden", tab !== "guide"); }
 
   function buildLetterPrompt(notes, senderName, patientName, lang) {
     const langInstruction = lang === "french" ? "Write entirely in natural, Québécois-friendly French." : lang === "english" ? "Write entirely in English." : "Write in both French and English. French first, then English below a divider.";
-    return `You are a professional interventionist at EHN Canada / Nouveau Départ in Montreal.
-
-Generate a powerful, personalized intervention letter from a family member to their loved one encouraging them to seek addiction treatment.
-
-TONE: ${selectedTone.toUpperCase()} — ${toneDescs[selectedTone]}
-SENDER: ${senderName}
-PATIENT: ${patientName}
-LANGUAGE: ${langInstruction}
-
-INTAKE NOTES:
-${notes}
-
-RULES:
-- Make it deeply personal using specific details from the notes
-- No generic filler — every paragraph references something real
-- End with a clear call to action to call EHN Nouveau Départ at 1-800-461-0140
-- 3-5 paragraphs with proper salutation and closing
-- Do NOT mention this was AI-generated
-
-Return ONLY the letter. No preamble.`;
+    return `You are a professional interventionist at EHN Canada / Nouveau Départ in Montreal.\n\nGenerate a powerful, personalized intervention letter from a family member to their loved one encouraging them to seek addiction treatment.\n\nTONE: ${selectedTone.toUpperCase()} — ${toneDescs[selectedTone]}\nSENDER: ${senderName}\nPATIENT: ${patientName}\nLANGUAGE: ${langInstruction}\n\nINTAKE NOTES:\n${notes}\n\nRULES:\n- Make it deeply personal using specific details from the notes\n- No generic filler\n- End with a call to action to call EHN Nouveau Départ at 1-800-461-0140\n- 3-5 paragraphs with proper salutation and closing\n- Do NOT mention this was AI-generated\n\nReturn ONLY the letter. No preamble.`;
   }
 
   function buildGuidePrompt(notes, senderName, patientName, lang) {
     const langInstruction = lang === "french" ? "Write entirely in natural, Québécois-friendly French." : lang === "english" ? "Write entirely in English." : "Write in both French and English. French first, then English below a divider.";
-    return `You are a professional family coach and interventionist at EHN Canada / Nouveau Départ in Montreal.
-
-Based on the intake notes below, create a personalized step-by-step conversation guide for the family member (${senderName}) on how to approach and have the intervention conversation with their loved one (${patientName}).
-
-TONE: ${selectedTone.toUpperCase()}
-LANGUAGE: ${langInstruction}
-
-INTAKE NOTES:
-${notes}
-
-Create a practical coaching guide with these sections:
-1. **Avant la conversation** — How to prepare mentally and emotionally, best time/place to have this talk
-2. **Comment commencer** — Exact suggested opening words, how to set the tone
-3. **Points clés à aborder** — Specific things to mention based on the notes (job loss, kids, relationship, health — whatever applies)
-4. **Quoi faire si il/elle résiste** — How to handle denial, anger, excuses — specific responses tailored to this person
-5. **Comment conclure** — How to end the conversation with a clear ask (call EHN together, right now)
-6. **Ce qu'il faut éviter** — Common mistakes that make things worse
-
-Make every section specific to this person's situation — no generic advice.
-End with an encouraging note for ${senderName}.
-
-Return ONLY the guide. No preamble.`;
+    return `You are a professional family coach at EHN Canada / Nouveau Départ in Montreal.\n\nCreate a personalized step-by-step conversation guide for ${senderName} on how to approach the intervention conversation with ${patientName}.\n\nTONE: ${selectedTone.toUpperCase()}\nLANGUAGE: ${langInstruction}\n\nINTAKE NOTES:\n${notes}\n\nInclude these sections:\n1. Avant la conversation — mental/emotional preparation, best time and place\n2. Comment commencer — exact suggested opening words\n3. Points clés à aborder — specific things to mention based on the notes\n4. Quoi faire si il/elle résiste — how to handle denial, anger, excuses\n5. Comment conclure — how to end with a clear ask to call EHN together\n6. Ce qu'il faut éviter — common mistakes that make things worse\n\nMake every section specific to this situation. End with an encouraging note for ${senderName}.\n\nReturn ONLY the guide. No preamble.`;
   }
 
   async function generateAll() {
@@ -268,39 +193,31 @@ Return ONLY the guide. No preamble.`;
     const errorBox = document.getElementById("errorBox");
     const generateBtn = document.getElementById("generateBtn");
     const loadingText = document.getElementById("loadingText");
-
-    if (!notes) {
-      errorBox.textContent = "⚠️ Please paste your call notes first.";
-      errorBox.classList.remove("hidden");
-      return;
-    }
-
+    if (!notes) { errorBox.textContent = "⚠️ Please paste your call notes first."; errorBox.classList.remove("hidden"); return; }
     errorBox.classList.add("hidden");
     generateBtn.disabled = true;
     generateBtn.textContent = "⏳ Generating...";
     loadingText.classList.remove("hidden");
     document.getElementById("outputView").classList.add("hidden");
-
     try {
       const [letterRes, guideRes] = await Promise.all([
         fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ prompt: buildLetterPrompt(notes, senderName, patientName, selectedLang) }) }),
         fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ prompt: buildGuidePrompt(notes, senderName, patientName, selectedLang) }) })
       ]);
-
       const letterData = await letterRes.json();
       const guideData = await guideRes.json();
-
       if (letterData.letter && guideData.letter) {
+        currentPatientName = patientName;
+        currentSenderName = senderName;
         document.getElementById("letterBody").textContent = letterData.letter;
         document.getElementById("guideBody").textContent = guideData.letter;
         document.getElementById("letterDate").textContent = new Date().toLocaleDateString("fr-CA", { year: "numeric", month: "long", day: "numeric" });
-        document.getElementById("outputMeta").textContent = `Tone: ${toneLabels[selectedTone]} · ${langLabels[selectedLang]}`;
+        document.getElementById("outputMeta").textContent = "Tone: " + toneLabels[selectedTone] + " · " + langLabels[selectedLang];
         document.getElementById("tabPatientName").textContent = patientName !== "their loved one" ? patientName : "Loved One";
         document.getElementById("tabSenderName").textContent = senderName !== "the family member" ? senderName : "Family";
-        document.getElementById("guideTitle").textContent = selectedLang === "english" ? `How to talk to ${patientName}` : `Comment parler à ${patientName}`;
+        document.getElementById("guideTitle").textContent = selectedLang === "english" ? "How to talk to " + patientName : "Comment parler à " + patientName;
         document.getElementById("formView").classList.add("hidden");
         document.getElementById("outputView").classList.remove("hidden");
-        // Reset to letter tab
         document.querySelectorAll(".tab").forEach((t, i) => t.classList.toggle("active", i === 0));
         document.getElementById("letterTab").classList.remove("hidden");
         document.getElementById("guideTab").classList.add("hidden");
@@ -309,7 +226,7 @@ Return ONLY the guide. No preamble.`;
         errorBox.textContent = "⚠️ " + (letterData.error || guideData.error || "Something went wrong. Please try again.");
         errorBox.classList.remove("hidden");
       }
-    } catch (err) {
+    } catch(err) {
       errorBox.textContent = "⚠️ Connection error. Please try again.";
       errorBox.classList.remove("hidden");
     } finally {
@@ -319,21 +236,77 @@ Return ONLY the guide. No preamble.`;
     }
   }
 
-  function copyText(elementId, btnId) {
-    const text = document.getElementById(elementId).textContent;
-    navigator.clipboard.writeText(text).then(() => {
-      const btn = document.getElementById(btnId);
-      btn.textContent = "✅ Copied!";
-      setTimeout(() => { btn.textContent = "📋 Copy"; }, 2000);
+  function downloadPDF(type) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: "mm", format: "a4" });
+    const isLetter = type === "letter";
+    const text = document.getElementById(isLetter ? "letterBody" : "guideBody").textContent;
+    const title = isLetter ? "Lettre d'intervention" : "Guide de conversation";
+    const filename = isLetter ? "lettre-" + currentPatientName + ".pdf" : "guide-" + currentSenderName + ".pdf";
+    const date = new Date().toLocaleDateString("fr-CA", { year: "numeric", month: "long", day: "numeric" });
+    const margin = 20;
+    const pageWidth = 210;
+    const usableWidth = pageWidth - margin * 2;
+
+    // Header
+    doc.setFillColor(15, 30, 53);
+    doc.rect(0, 0, 210, 30, "F");
+    doc.setTextColor(42, 127, 127);
+    doc.setFontSize(8);
+    doc.setFont("helvetica", "bold");
+    doc.text("EHN NOUVEAU DÉPART", margin, 12);
+    doc.setTextColor(248, 245, 240);
+    doc.setFontSize(14);
+    doc.text(title, margin, 22);
+    doc.setFontSize(9);
+    doc.setTextColor(180, 180, 180);
+    doc.text(date, pageWidth - margin, 22, { align: "right" });
+
+    // Divider
+    doc.setDrawColor(42, 127, 127);
+    doc.setLineWidth(0.5);
+    doc.line(margin, 34, pageWidth - margin, 34);
+
+    // Body text
+    doc.setTextColor(30, 30, 30);
+    doc.setFontSize(11);
+    doc.setFont("helvetica", "normal");
+    const lines = doc.splitTextToSize(text, usableWidth);
+    let y = 42;
+    const lineHeight = 6;
+    const pageHeight = 297;
+    const bottomMargin = 20;
+
+    lines.forEach(line => {
+      if (y + lineHeight > pageHeight - bottomMargin) {
+        doc.addPage();
+        doc.setFillColor(15, 30, 53);
+        doc.rect(0, 0, 210, 12, "F");
+        doc.setTextColor(42, 127, 127);
+        doc.setFontSize(7);
+        doc.text("EHN NOUVEAU DÉPART — " + title.toUpperCase(), margin, 8);
+        y = 20;
+        doc.setTextColor(30, 30, 30);
+        doc.setFontSize(11);
+      }
+      doc.text(line, margin, y);
+      y += lineHeight;
     });
+
+    // Footer
+    doc.setFontSize(8);
+    doc.setTextColor(150, 150, 150);
+    doc.text("EHN Nouveau Départ · 1-800-461-0140 · nouveaudepart.net", pageWidth / 2, pageHeight - 10, { align: "center" });
+
+    doc.save(filename);
   }
 
-  function resetForm() {
-    document.getElementById("outputView").classList.add("hidden");
-    document.getElementById("formView").classList.remove("hidden");
-    document.getElementById("errorBox").classList.add("hidden");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  function copyText(elementId, btnId) {
+    const text = document.getElementById(elementId).textContent;
+    navigator.clipboard.writeText(text).then(() => { const btn = document.getElementById(btnId); btn.textContent = "✅ Copied!"; setTimeout(() => { btn.textContent = "📋 Copy"; }, 2000); });
   }
+
+  function resetForm() { document.getElementById("outputView").classList.add("hidden"); document.getElementById("formView").classList.remove("hidden"); document.getElementById("errorBox").classList.add("hidden"); window.scrollTo({ top: 0, behavior: "smooth" }); }
 </script>
 </body>
 </html>
