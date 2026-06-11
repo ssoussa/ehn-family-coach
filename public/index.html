@@ -19,17 +19,24 @@
     .card-label { font-size: 11px; letter-spacing: 1.5px; color: #2A7F7F; text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 12px; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-    @media (max-width: 600px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } .header { flex-direction: column; align-items: flex-start; gap: 10px; } .letter-preview { padding: 28px 20px; } }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    @media (max-width: 600px) { .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr 1fr; } .header { flex-direction: column; align-items: flex-start; gap: 10px; } .letter-preview { padding: 28px 20px; } }
     .field-label { font-size: 12px; color: rgba(248,245,240,0.5); margin-bottom: 6px; }
     input, textarea { width: 100%; background: rgba(248,245,240,0.06); border: 1px solid rgba(248,245,240,0.12); border-radius: 8px; padding: 12px 14px; color: #F8F5F0; font-size: 14px; font-family: inherit; outline: none; }
     input::placeholder, textarea::placeholder { color: rgba(248,245,240,0.25); }
     textarea { height: 180px; resize: vertical; line-height: 1.6; }
     .char-count { font-size: 11px; color: rgba(248,245,240,0.3); text-align: right; margin-top: 6px; }
-    .option-tile { padding: 14px; border-radius: 10px; border: 2px solid rgba(248,245,240,0.08); background: rgba(248,245,240,0.03); cursor: pointer; transition: all 0.15s; }
+    .option-tile { padding: 12px 14px; border-radius: 10px; border: 2px solid rgba(248,245,240,0.08); background: rgba(248,245,240,0.03); cursor: pointer; transition: all 0.15s; text-align: center; }
     .option-tile:hover { border-color: rgba(42,127,127,0.4); }
     .option-tile.selected { border-color: #2A7F7F; background: rgba(42,127,127,0.12); }
-    .option-tile .title { font-size: 14px; font-weight: 600; }
-    .option-tile .desc { font-size: 12px; color: rgba(248,245,240,0.5); margin-top: 4px; }
+    .option-tile .title { font-size: 13px; font-weight: 600; }
+    .option-tile .desc { font-size: 11px; color: rgba(248,245,240,0.5); margin-top: 3px; }
+    .option-tile .emoji { font-size: 20px; margin-bottom: 4px; display: block; }
+    .tone-tile { padding: 14px; border-radius: 10px; border: 2px solid rgba(248,245,240,0.08); background: rgba(248,245,240,0.03); cursor: pointer; transition: all 0.15s; }
+    .tone-tile:hover { border-color: rgba(42,127,127,0.4); }
+    .tone-tile.selected { border-color: #2A7F7F; background: rgba(42,127,127,0.12); }
+    .tone-tile .title { font-size: 14px; font-weight: 600; }
+    .tone-tile .desc { font-size: 12px; color: rgba(248,245,240,0.5); margin-top: 4px; }
     .lang-tile { padding: 12px; text-align: center; border-radius: 10px; border: 2px solid rgba(248,245,240,0.08); background: rgba(248,245,240,0.03); cursor: pointer; transition: all 0.15s; font-size: 14px; font-weight: 600; }
     .lang-tile:hover { border-color: rgba(42,127,127,0.4); }
     .lang-tile.selected { border-color: #2A7F7F; background: rgba(42,127,127,0.12); }
@@ -37,11 +44,11 @@
     .btn-generate:disabled { background: rgba(42,127,127,0.4); cursor: not-allowed; }
     .btn-generate:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(42,127,127,0.3); }
     .btn-row { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
-    .btn-copy { flex: 1; min-width: 120px; background: rgba(42,127,127,0.15); border: 1px solid rgba(42,127,127,0.4); border-radius: 10px; padding: 12px; color: #2A7F7F; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; text-align: center; }
+    .btn-copy { flex: 1; min-width: 100px; background: rgba(42,127,127,0.15); border: 1px solid rgba(42,127,127,0.4); border-radius: 10px; padding: 12px; color: #2A7F7F; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; text-align: center; }
     .btn-copy:hover { background: rgba(42,127,127,0.25); }
-    .btn-pdf { flex: 1; min-width: 120px; background: rgba(232,165,75,0.15); border: 1px solid rgba(232,165,75,0.4); border-radius: 10px; padding: 12px; color: #E8A54B; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; text-align: center; }
+    .btn-pdf { flex: 1; min-width: 100px; background: rgba(232,165,75,0.15); border: 1px solid rgba(232,165,75,0.4); border-radius: 10px; padding: 12px; color: #E8A54B; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; text-align: center; }
     .btn-pdf:hover { background: rgba(232,165,75,0.25); }
-    .btn-regen { flex: 1; min-width: 120px; background: rgba(248,245,240,0.05); border: 1px solid rgba(248,245,240,0.15); border-radius: 10px; padding: 12px; color: rgba(248,245,240,0.7); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; text-align: center; }
+    .btn-regen { flex: 1; min-width: 100px; background: rgba(248,245,240,0.05); border: 1px solid rgba(248,245,240,0.15); border-radius: 10px; padding: 12px; color: rgba(248,245,240,0.7); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; text-align: center; }
     .btn-back { background: transparent; border: 1px solid rgba(248,245,240,0.2); border-radius: 8px; padding: 8px 16px; color: rgba(248,245,240,0.6); font-size: 13px; cursor: pointer; font-family: inherit; }
     .error-box { background: rgba(232,165,75,0.1); border: 1px solid rgba(232,165,75,0.4); border-radius: 8px; padding: 12px 16px; color: #E8A54B; font-size: 14px; margin-bottom: 16px; }
     .info-box { background: rgba(232,165,75,0.08); border: 1px solid rgba(232,165,75,0.2); border-radius: 8px; padding: 12px 16px; font-size: 12px; color: rgba(232,165,75,0.8); margin-bottom: 16px; }
@@ -54,13 +61,24 @@
     .letterhead-date { font-size: 12px; color: #888; }
     .letter-body { font-family: Georgia, 'Times New Roman', serif; font-size: 15px; line-height: 1.9; color: #1a1a1a; white-space: pre-wrap; }
     .tabs { display: flex; gap: 0; margin-bottom: 20px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(248,245,240,0.1); }
-    .tab { flex: 1; padding: 14px; text-align: center; font-size: 14px; font-weight: 600; cursor: pointer; background: rgba(248,245,240,0.03); color: rgba(248,245,240,0.5); border: none; font-family: inherit; transition: all 0.15s; }
+    .tab { flex: 1; padding: 12px 8px; text-align: center; font-size: 13px; font-weight: 600; cursor: pointer; background: rgba(248,245,240,0.03); color: rgba(248,245,240,0.5); border: none; font-family: inherit; transition: all 0.15s; }
     .tab.active { background: rgba(42,127,127,0.2); color: #2A7F7F; }
     .guide-preview { background: #F8F5F0; border-radius: 12px; padding: 40px 48px; box-shadow: 0 8px 40px rgba(0,0,0,0.4); margin-bottom: 16px; }
     .guide-header { border-bottom: 2px solid #0F1E35; padding-bottom: 16px; margin-bottom: 28px; }
     .guide-title { font-size: 20px; font-weight: 800; color: #0F1E35; }
     .guide-subtitle { font-size: 13px; color: #2A7F7F; margin-top: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
     .guide-body { font-family: Georgia, 'Times New Roman', serif; font-size: 15px; line-height: 1.9; color: #1a1a1a; white-space: pre-wrap; }
+    /* SMS PREVIEW */
+    .sms-phone { background: #1a1a2e; border-radius: 32px; padding: 20px; max-width: 380px; margin: 0 auto 16px; box-shadow: 0 8px 40px rgba(0,0,0,0.5); border: 6px solid #2a2a3e; }
+    .sms-topbar { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .sms-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #2A7F7F, #1d5f5f); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+    .sms-name { font-size: 13px; font-weight: 600; color: #F8F5F0; }
+    .sms-status { font-size: 11px; color: rgba(248,245,240,0.4); }
+    .sms-bubble { background: #2A7F7F; border-radius: 18px 18px 4px 18px; padding: 14px 16px; font-size: 13px; line-height: 1.6; color: #fff; white-space: pre-wrap; word-break: break-word; }
+    .sms-time { font-size: 10px; color: rgba(248,245,240,0.3); text-align: right; margin-top: 6px; }
+    /* SCRIPT PREVIEW */
+    .script-preview { background: #F8F5F0; border-radius: 12px; padding: 40px 48px; box-shadow: 0 8px 40px rgba(0,0,0,0.4); margin-bottom: 16px; }
+    .script-body { font-family: 'Courier New', monospace; font-size: 14px; line-height: 2; color: #1a1a1a; white-space: pre-wrap; }
     .hidden { display: none; }
   </style>
 </head>
@@ -70,58 +88,101 @@
     <div>
       <div class="header-brand"><span class="header-dot"></span>EHN Nouveau Départ</div>
       <h1>Family Coach AI</h1>
-      <p>Letter + conversation guide generator</p>
+      <p>Letter · Guide · SMS · Script</p>
     </div>
     <div class="badge">🔒 Internal Use Only</div>
   </div>
   <div class="main">
     <div id="formView">
+
+      <!-- Step 1: Names -->
       <div class="card">
-        <span class="card-label">Step 1 — Names (optional but recommended)</span>
+        <span class="card-label">Step 1 — Names</span>
         <div class="grid-2">
-          <div><p class="field-label">Family member / sender</p><input type="text" id="senderName" placeholder="e.g. Marie Tremblay" /></div>
+          <div><p class="field-label">Family member / caller</p><input type="text" id="senderName" placeholder="e.g. Marie Tremblay" /></div>
           <div><p class="field-label">Patient / loved one</p><input type="text" id="patientName" placeholder="e.g. Mathieu" /></div>
         </div>
       </div>
+
+      <!-- Step 2: Caller Profile -->
       <div class="card">
-        <span class="card-label">Step 2 — Select tone</span>
-        <div class="grid-2">
-          <div class="option-tile selected" data-tone="loving" onclick="selectTone(this)"><div class="title">💛 Loving & Compassionate</div><div class="desc">Warm, emotional, focuses on love and family bonds</div></div>
-          <div class="option-tile" data-tone="firm" onclick="selectTone(this)"><div class="title">🛑 Firm & Direct</div><div class="desc">Clear boundaries, consequences, non-negotiable urgency</div></div>
-          <div class="option-tile" data-tone="hopeful" onclick="selectTone(this)"><div class="title">🌱 Hopeful & Forward-Looking</div><div class="desc">Recovery-focused, emphasizes a better future</div></div>
-          <div class="option-tile" data-tone="urgent" onclick="selectTone(this)"><div class="title">⚡ Urgent & Crisis-Aware</div><div class="desc">Immediate action required, safety concerns present</div></div>
+        <span class="card-label">Step 2 — Who is calling?</span>
+        <div class="grid-4">
+          <div class="option-tile selected" data-profile="mother" onclick="selectProfile(this)"><span class="emoji">👩</span><div class="title">Mère / Mom</div></div>
+          <div class="option-tile" data-profile="father" onclick="selectProfile(this)"><span class="emoji">👨</span><div class="title">Père / Dad</div></div>
+          <div class="option-tile" data-profile="spouse" onclick="selectProfile(this)"><span class="emoji">💑</span><div class="title">Conjoint(e)</div></div>
+          <div class="option-tile" data-profile="sibling" onclick="selectProfile(this)"><span class="emoji">👫</span><div class="title">Frère / Sœur</div></div>
+          <div class="option-tile" data-profile="friend" onclick="selectProfile(this)"><span class="emoji">🤝</span><div class="title">Ami(e)</div></div>
+          <div class="option-tile" data-profile="employer" onclick="selectProfile(this)"><span class="emoji">💼</span><div class="title">Employeur</div></div>
+          <div class="option-tile" data-profile="child" onclick="selectProfile(this)"><span class="emoji">👶</span><div class="title">Enfant adulte</div></div>
+          <div class="option-tile" data-profile="other" onclick="selectProfile(this)"><span class="emoji">👤</span><div class="title">Autre</div></div>
         </div>
       </div>
+
+      <!-- Step 3: Substance -->
       <div class="card">
-        <span class="card-label">Step 3 — Language</span>
+        <span class="card-label">Step 3 — Primary substance</span>
+        <div class="grid-4">
+          <div class="option-tile selected" data-substance="alcohol" onclick="selectSubstance(this)"><span class="emoji">🍷</span><div class="title">Alcool</div></div>
+          <div class="option-tile" data-substance="opioids" onclick="selectSubstance(this)"><span class="emoji">💊</span><div class="title">Opioïdes</div></div>
+          <div class="option-tile" data-substance="cocaine" onclick="selectSubstance(this)"><span class="emoji">⚡</span><div class="title">Cocaïne</div></div>
+          <div class="option-tile" data-substance="benzos" onclick="selectSubstance(this)"><span class="emoji">😴</span><div class="title">Benzos</div></div>
+          <div class="option-tile" data-substance="cannabis" onclick="selectSubstance(this)"><span class="emoji">🌿</span><div class="title">Cannabis</div></div>
+          <div class="option-tile" data-substance="meth" onclick="selectSubstance(this)"><span class="emoji">🔥</span><div class="title">Méthamph.</div></div>
+          <div class="option-tile" data-substance="multiple" onclick="selectSubstance(this)"><span class="emoji">⚠️</span><div class="title">Poly-substances</div></div>
+          <div class="option-tile" data-substance="unknown" onclick="selectSubstance(this)"><span class="emoji">❓</span><div class="title">Inconnu</div></div>
+        </div>
+      </div>
+
+      <!-- Step 4: Tone -->
+      <div class="card">
+        <span class="card-label">Step 4 — Tone</span>
+        <div class="grid-2">
+          <div class="tone-tile selected" data-tone="loving" onclick="selectTone(this)"><div class="title">💛 Loving & Compassionate</div><div class="desc">Warm, emotional, focuses on love and family bonds</div></div>
+          <div class="tone-tile" data-tone="firm" onclick="selectTone(this)"><div class="title">🛑 Firm & Direct</div><div class="desc">Clear boundaries, consequences, non-negotiable urgency</div></div>
+          <div class="tone-tile" data-tone="hopeful" onclick="selectTone(this)"><div class="title">🌱 Hopeful & Forward-Looking</div><div class="desc">Recovery-focused, emphasizes a better future</div></div>
+          <div class="tone-tile" data-tone="urgent" onclick="selectTone(this)"><div class="title">⚡ Urgent & Crisis-Aware</div><div class="desc">Immediate action required, safety concerns present</div></div>
+        </div>
+      </div>
+
+      <!-- Step 5: Language -->
+      <div class="card">
+        <span class="card-label">Step 5 — Language</span>
         <div class="grid-3">
           <div class="lang-tile selected" data-lang="french" onclick="selectLang(this)">🇨🇦 Français</div>
           <div class="lang-tile" data-lang="english" onclick="selectLang(this)">🇺🇸 English</div>
           <div class="lang-tile" data-lang="both" onclick="selectLang(this)">🔄 Les deux / Both</div>
         </div>
       </div>
+
+      <!-- Step 6: Notes -->
       <div class="card">
-        <span class="card-label">Step 4 — Paste call notes / intake recap</span>
-        <p class="field-label" style="margin-bottom:12px;">Paste your Salesforce notes, JotForm recap, or any call summary. The more detail, the more personalized the output.</p>
-        <textarea id="notes" placeholder="Ex: Caller is the mother of a 32-year-old male. He's been using opioids for 4 years..." oninput="updateCharCount()"></textarea>
+        <span class="card-label">Step 6 — Call notes / intake recap</span>
+        <p class="field-label" style="margin-bottom:12px;">Paste your Salesforce notes, JotForm recap, or any call summary.</p>
+        <textarea id="notes" placeholder="Ex: La mère appelle en pleurs. Son fils de 29 ans consomme de la cocaïne depuis 4 ans..." oninput="updateCharCount()"></textarea>
         <p class="char-count" id="charCount"></p>
       </div>
+
       <div id="errorBox" class="error-box hidden"></div>
-      <button class="btn-generate" id="generateBtn" onclick="generateAll()">✉️ Generate Letter + Conversation Guide</button>
-      <p class="loading-text hidden" id="loadingText">Generating letter and coaching guide... this may take 20–30 seconds.</p>
+      <button class="btn-generate" id="generateBtn" onclick="generateAll()">✨ Generate All 4 Outputs</button>
+      <p class="loading-text hidden" id="loadingText">Generating letter, guide, SMS and script... this may take 30–40 seconds.</p>
     </div>
 
+    <!-- OUTPUT VIEW -->
     <div id="outputView" class="hidden">
       <div class="letter-header-row">
         <div>
-          <h2 style="font-size:20px;font-weight:700;">✅ Ready to use</h2>
+          <h2 style="font-size:20px;font-weight:700;">✅ 4 outputs ready</h2>
           <p style="font-size:13px;color:rgba(248,245,240,0.4);margin-top:4px;" id="outputMeta"></p>
         </div>
         <button class="btn-back" onclick="resetForm()">← New</button>
       </div>
+
       <div class="tabs">
-        <button class="tab active" onclick="showTab('letter', this)">✉️ Letter for <span id="tabPatientName">Loved One</span></button>
-        <button class="tab" onclick="showTab('guide', this)">📋 Guide for <span id="tabSenderName">Family</span></button>
+        <button class="tab active" onclick="showTab('letter', this)">✉️ Lettre</button>
+        <button class="tab" onclick="showTab('guide', this)">📋 Guide</button>
+        <button class="tab" onclick="showTab('sms', this)">💬 SMS</button>
+        <button class="tab" onclick="showTab('script', this)">🎭 Script</button>
       </div>
 
       <!-- LETTER TAB -->
@@ -135,7 +196,7 @@
         </div>
         <div class="btn-row">
           <button class="btn-copy" id="copyLetterBtn" onclick="copyText('letterBody','copyLetterBtn')">📋 Copy</button>
-          <button class="btn-pdf" onclick="downloadPDF('letter')">📄 Download PDF</button>
+          <button class="btn-pdf" onclick="downloadPDF('letter')">📄 PDF</button>
           <button class="btn-regen" onclick="generateAll()">🔄 Regenerate</button>
         </div>
       </div>
@@ -151,12 +212,44 @@
         </div>
         <div class="btn-row">
           <button class="btn-copy" id="copyGuideBtn" onclick="copyText('guideBody','copyGuideBtn')">📋 Copy</button>
-          <button class="btn-pdf" onclick="downloadPDF('guide')">📄 Download PDF</button>
+          <button class="btn-pdf" onclick="downloadPDF('guide')">📄 PDF</button>
           <button class="btn-regen" onclick="generateAll()">🔄 Regenerate</button>
         </div>
       </div>
 
-      <div class="info-box">💡 Review both before sharing. These are starting points — personalize further if needed.</div>
+      <!-- SMS TAB -->
+      <div id="smsTab" class="hidden">
+        <div class="sms-phone">
+          <div class="sms-topbar">
+            <div class="sms-avatar">💬</div>
+            <div><div class="sms-name" id="smsRecipient">Mathieu</div><div class="sms-status">Message texte</div></div>
+          </div>
+          <div class="sms-bubble" id="smsBody"></div>
+          <div class="sms-time" id="smsTime"></div>
+        </div>
+        <div class="btn-row" style="max-width:380px;margin:0 auto;">
+          <button class="btn-copy" id="copySmsBtn" onclick="copyText('smsBody','copySmsBtn')">📋 Copy SMS</button>
+          <button class="btn-regen" onclick="generateAll()">🔄 Regenerate</button>
+        </div>
+      </div>
+
+      <!-- SCRIPT TAB -->
+      <div id="scriptTab" class="hidden">
+        <div class="script-preview">
+          <div class="guide-header">
+            <div class="guide-subtitle">Script mot-à-mot — EHN Nouveau Départ</div>
+            <div class="guide-title" id="scriptTitle">Ce que vous pouvez dire</div>
+          </div>
+          <div class="script-body" id="scriptBody"></div>
+        </div>
+        <div class="btn-row">
+          <button class="btn-copy" id="copyScriptBtn" onclick="copyText('scriptBody','copyScriptBtn')">📋 Copy</button>
+          <button class="btn-pdf" onclick="downloadPDF('script')">📄 PDF</button>
+          <button class="btn-regen" onclick="generateAll()">🔄 Regenerate</button>
+        </div>
+      </div>
+
+      <div class="info-box">💡 Review all outputs before sharing. Personalize further if needed.</div>
     </div>
   </div>
 </div>
@@ -164,66 +257,196 @@
 <script>
   let selectedTone = "loving";
   let selectedLang = "french";
+  let selectedProfile = "mother";
+  let selectedSubstance = "alcohol";
   let currentPatientName = "leur proche";
   let currentSenderName = "la famille";
 
   const toneDescs = { loving: "Warm, emotional, focuses on love and family bonds", firm: "Clear boundaries, consequences, non-negotiable urgency", hopeful: "Recovery-focused, emphasizes a better future", urgent: "Immediate action required, safety concerns present" };
   const toneLabels = { loving: "💛 Loving", firm: "🛑 Firm", hopeful: "🌱 Hopeful", urgent: "⚡ Urgent" };
   const langLabels = { french: "🇨🇦 Français", english: "🇺🇸 English", both: "🔄 Both" };
+  const profileLabels = { mother: "Mère", father: "Père", spouse: "Conjoint(e)", sibling: "Frère/Sœur", friend: "Ami(e)", employer: "Employeur", child: "Enfant adulte", other: "Autre" };
+  const substanceLabels = { alcohol: "Alcool", opioids: "Opioïdes", cocaine: "Cocaïne", benzos: "Benzos", cannabis: "Cannabis", meth: "Méthamphétamine", multiple: "Poly-substances", unknown: "Inconnu" };
 
-  function selectTone(el) { document.querySelectorAll(".option-tile").forEach(t => t.classList.remove("selected")); el.classList.add("selected"); selectedTone = el.dataset.tone; }
+  const substanceContext = {
+    alcohol: "alcohol addiction — emphasize physical health risks, blackouts, and the progressive nature of alcoholism. Mention that medical detox is required and dangerous to do alone.",
+    opioids: "opioid addiction (prescription pills or heroin) — emphasize overdose risk, fentanyl contamination, and that medication-assisted treatment (MAT) is available and highly effective.",
+    cocaine: "cocaine addiction — emphasize cardiovascular risks, financial destruction, paranoia, and the psychological nature of the addiction. Binges and crashes affect the whole family.",
+    benzos: "benzodiazepine addiction — emphasize that benzo withdrawal is medically dangerous (can cause seizures), requires supervised medical detox, and that this is not a matter of willpower.",
+    cannabis: "heavy cannabis dependency — emphasize cognitive impacts, amotivation syndrome, and that dependency is real even if society minimizes it.",
+    meth: "methamphetamine addiction — emphasize psychosis risk, rapid physical deterioration, and the high urgency of immediate intervention.",
+    multiple: "poly-substance addiction (multiple substances) — emphasize the compounded dangers, unpredictable interactions, and the complexity that requires specialized treatment.",
+    unknown: "substance addiction — focus on the behavioral and emotional signs observed rather than the specific substance."
+  };
+
+  const profileContext = {
+    mother: "The caller is the MOTHER. Write with deep maternal love, grief, and the unique pain of watching your child suffer. Reference the unconditional bond between mother and child.",
+    father: "The caller is the FATHER. Write with paternal strength, pride in who their child was, and a father's protective instinct. Fathers often struggle to show vulnerability — make this letter help them do that.",
+    spouse: "The caller is the SPOUSE/PARTNER. Write about the impact on the relationship, the children if any, shared dreams that are slipping away, and love that is being tested.",
+    sibling: "The caller is a SIBLING. Write about growing up together, shared memories, watching your brother/sister change, and the helplessness of seeing a sibling you admired fall apart.",
+    friend: "The caller is a CLOSE FRIEND. Write about chosen family, the loyalty of true friendship, and the fear of losing someone who has been part of your life story.",
+    employer: "The caller is an EMPLOYER. Write with professional concern but genuine human care. Acknowledge the person's professional value, what they've contributed, and the desire to help them recover and return.",
+    child: "The caller is an ADULT CHILD of the person struggling. Write about the role reversal, the fear of losing a parent, childhood memories, and pleading as someone who needs their parent present and healthy.",
+    other: "The caller is someone who cares deeply about this person. Write with authentic concern and specific personal connection."
+  };
+
+  function selectTone(el) { document.querySelectorAll(".tone-tile").forEach(t => t.classList.remove("selected")); el.classList.add("selected"); selectedTone = el.dataset.tone; }
   function selectLang(el) { document.querySelectorAll(".lang-tile").forEach(t => t.classList.remove("selected")); el.classList.add("selected"); selectedLang = el.dataset.lang; }
+  function selectProfile(el) { document.querySelectorAll("[data-profile]").forEach(t => t.classList.remove("selected")); el.classList.add("selected"); selectedProfile = el.dataset.profile; }
+  function selectSubstance(el) { document.querySelectorAll("[data-substance]").forEach(t => t.classList.remove("selected")); el.classList.add("selected"); selectedSubstance = el.dataset.substance; }
   function updateCharCount() { const n = document.getElementById("notes").value; document.getElementById("charCount").textContent = n.length > 0 ? n.length + " characters" : ""; }
-  function showTab(tab, el) { document.querySelectorAll(".tab").forEach(t => t.classList.remove("active")); el.classList.add("active"); document.getElementById("letterTab").classList.toggle("hidden", tab !== "letter"); document.getElementById("guideTab").classList.toggle("hidden", tab !== "guide"); }
 
-  function buildLetterPrompt(notes, senderName, patientName, lang) {
-    const langInstruction = lang === "french" ? "Write entirely in natural, Québécois-friendly French." : lang === "english" ? "Write entirely in English." : "Write in both French and English. French first, then English below a divider.";
-    return `You are a professional interventionist at EHN Canada / Nouveau Départ in Montreal.\n\nGenerate a powerful, personalized intervention letter from a family member to their loved one encouraging them to seek addiction treatment.\n\nTONE: ${selectedTone.toUpperCase()} — ${toneDescs[selectedTone]}\nSENDER: ${senderName}\nPATIENT: ${patientName}\nLANGUAGE: ${langInstruction}\n\nINTAKE NOTES:\n${notes}\n\nRULES:\n- Make it deeply personal using specific details from the notes\n- No generic filler\n- End with a call to action to call EHN Nouveau Départ at 1-800-461-0140\n- 3-5 paragraphs with proper salutation and closing\n- Do NOT mention this was AI-generated\n\nReturn ONLY the letter. No preamble.`;
+  function showTab(tab, el) {
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active")); el.classList.add("active");
+    ["letter","guide","sms","script"].forEach(t => document.getElementById(t+"Tab").classList.toggle("hidden", t !== tab));
   }
 
-  function buildGuidePrompt(notes, senderName, patientName, lang) {
-    const langInstruction = lang === "french" ? "Write entirely in natural, Québécois-friendly French." : lang === "english" ? "Write entirely in English." : "Write in both French and English. French first, then English below a divider.";
-    return `You are a professional family coach at EHN Canada / Nouveau Départ in Montreal.\n\nCreate a personalized step-by-step conversation guide for ${senderName} on how to approach the intervention conversation with ${patientName}.\n\nTONE: ${selectedTone.toUpperCase()}\nLANGUAGE: ${langInstruction}\n\nINTAKE NOTES:\n${notes}\n\nInclude these sections:\n1. Avant la conversation — mental/emotional preparation, best time and place\n2. Comment commencer — exact suggested opening words\n3. Points clés à aborder — specific things to mention based on the notes\n4. Quoi faire si il/elle résiste — how to handle denial, anger, excuses\n5. Comment conclure — how to end with a clear ask to call EHN together\n6. Ce qu'il faut éviter — common mistakes that make things worse\n\nMake every section specific to this situation. End with an encouraging note for ${senderName}.\n\nReturn ONLY the guide. No preamble.`;
+  function getLangInstruction(lang) {
+    return lang === "french" ? "Write entirely in natural, Québécois-friendly French." : lang === "english" ? "Write entirely in English." : "Write in both French and English. French first, then English below a divider line (---)."
+  }
+
+  function buildLetterPrompt(notes, senderName, patientName) {
+    return `You are a professional interventionist at EHN Canada / Nouveau Départ in Montreal.
+
+Generate a powerful, personalized intervention letter from a family member to their loved one.
+
+CALLER PROFILE: ${profileContext[selectedProfile]}
+SUBSTANCE: This person is struggling with ${substanceContext[selectedSubstance]}
+TONE: ${selectedTone.toUpperCase()} — ${toneDescs[selectedTone]}
+SENDER: ${senderName}
+PATIENT: ${patientName}
+LANGUAGE: ${getLangInstruction(selectedLang)}
+
+INTAKE NOTES:
+${notes}
+
+RULES:
+- Use specific details from the notes in every paragraph
+- Adapt the voice and emotional register to the caller profile above
+- Reference the specific substance and its real dangers
+- End with a clear call to action: call EHN Nouveau Départ at 1-800-461-0140
+- 3-5 paragraphs, proper salutation and closing
+- Do NOT mention AI
+
+Return ONLY the letter.`;
+  }
+
+  function buildGuidePrompt(notes, senderName, patientName) {
+    return `You are a professional family coach at EHN Canada / Nouveau Départ in Montreal.
+
+Create a personalized step-by-step conversation guide for ${senderName} (${profileLabels[selectedProfile]}) on how to have the intervention conversation with ${patientName}.
+
+SUBSTANCE CONTEXT: ${substanceContext[selectedSubstance]}
+TONE: ${selectedTone.toUpperCase()}
+LANGUAGE: ${getLangInstruction(selectedLang)}
+
+INTAKE NOTES:
+${notes}
+
+Sections to include:
+1. Avant la conversation — preparation, mindset, timing, location
+2. Comment commencer — exact opening words tailored to their relationship
+3. Points clés à aborder — specific facts from the notes to bring up
+4. Quoi faire si il/elle résiste — handling denial, anger, minimization specific to this substance
+5. Comment conclure — ending with the ask to call EHN together right now
+6. Ce qu'il faut éviter — mistakes specific to this relationship dynamic
+
+Make it specific to this person and situation. End with encouragement for ${senderName}.
+
+Return ONLY the guide.`;
+  }
+
+  function buildSMSPrompt(notes, senderName, patientName) {
+    return `You are a professional interventionist at EHN Canada / Nouveau Départ in Montreal.
+
+Write a SHORT, powerful SMS text message from ${senderName} (${profileLabels[selectedProfile]}) to ${patientName} about their ${substanceLabels[selectedSubstance]} problem.
+
+TONE: ${selectedTone.toUpperCase()}
+LANGUAGE: ${getLangInstruction(selectedLang)}
+
+INTAKE NOTES:
+${notes}
+
+RULES:
+- Maximum 320 characters total (fits in 2 SMS messages)
+- Raw, human, direct — not formal
+- Must feel like a real text from a real person who loves them
+- End with the EHN number: 1-800-461-0140
+- No hashtags, no emojis unless very natural
+- Do NOT mention AI
+
+Return ONLY the SMS text. Nothing else.`;
+  }
+
+  function buildScriptPrompt(notes, senderName, patientName) {
+    return `You are a professional interventionist at EHN Canada / Nouveau Départ in Montreal.
+
+Write a word-for-word spoken script for ${senderName} (${profileLabels[selectedProfile]}) to read aloud during the intervention conversation with ${patientName}.
+
+SUBSTANCE CONTEXT: ${substanceContext[selectedSubstance]}
+TONE: ${selectedTone.toUpperCase()}
+LANGUAGE: ${getLangInstruction(selectedLang)}
+
+INTAKE NOTES:
+${notes}
+
+FORMAT:
+- Written exactly as they would SPEAK it, not formal letter language
+- Use natural pauses with "..." 
+- Include stage directions in [brackets] like [Pause. Look them in the eyes.] or [If they try to leave, say:]
+- Structure: Opening → What I've observed → How it affects me → What I'm asking → The ask to call EHN now
+- 4-6 paragraphs of spoken dialogue
+- Reference specific details from the notes
+- End with the EHN number: 1-800-461-0140
+
+Return ONLY the script.`;
   }
 
   async function generateAll() {
     const notes = document.getElementById("notes").value.trim();
-    const senderName = document.getElementById("senderName").value.trim() || "the family member";
-    const patientName = document.getElementById("patientName").value.trim() || "their loved one";
+    const senderName = document.getElementById("senderName").value.trim() || "la famille";
+    const patientName = document.getElementById("patientName").value.trim() || "leur proche";
     const errorBox = document.getElementById("errorBox");
     const generateBtn = document.getElementById("generateBtn");
     const loadingText = document.getElementById("loadingText");
+
     if (!notes) { errorBox.textContent = "⚠️ Please paste your call notes first."; errorBox.classList.remove("hidden"); return; }
     errorBox.classList.add("hidden");
     generateBtn.disabled = true;
-    generateBtn.textContent = "⏳ Generating...";
+    generateBtn.textContent = "⏳ Generating 4 outputs...";
     loadingText.classList.remove("hidden");
     document.getElementById("outputView").classList.add("hidden");
+
     try {
-      const [letterRes, guideRes] = await Promise.all([
-        fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ prompt: buildLetterPrompt(notes, senderName, patientName, selectedLang) }) }),
-        fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ prompt: buildGuidePrompt(notes, senderName, patientName, selectedLang) }) })
+      const [letterRes, guideRes, smsRes, scriptRes] = await Promise.all([
+        fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ prompt: buildLetterPrompt(notes, senderName, patientName) }) }),
+        fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ prompt: buildGuidePrompt(notes, senderName, patientName) }) }),
+        fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ prompt: buildSMSPrompt(notes, senderName, patientName) }) }),
+        fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ prompt: buildScriptPrompt(notes, senderName, patientName) }) })
       ]);
-      const letterData = await letterRes.json();
-      const guideData = await guideRes.json();
-      if (letterData.letter && guideData.letter) {
+
+      const [letterData, guideData, smsData, scriptData] = await Promise.all([letterRes.json(), guideRes.json(), smsRes.json(), scriptRes.json()]);
+
+      if (letterData.letter && guideData.letter && smsData.letter && scriptData.letter) {
         currentPatientName = patientName;
         currentSenderName = senderName;
         document.getElementById("letterBody").textContent = letterData.letter;
         document.getElementById("guideBody").textContent = guideData.letter;
+        document.getElementById("smsBody").textContent = smsData.letter;
+        document.getElementById("scriptBody").textContent = scriptData.letter;
         document.getElementById("letterDate").textContent = new Date().toLocaleDateString("fr-CA", { year: "numeric", month: "long", day: "numeric" });
-        document.getElementById("outputMeta").textContent = "Tone: " + toneLabels[selectedTone] + " · " + langLabels[selectedLang];
-        document.getElementById("tabPatientName").textContent = patientName !== "their loved one" ? patientName : "Loved One";
-        document.getElementById("tabSenderName").textContent = senderName !== "the family member" ? senderName : "Family";
+        document.getElementById("smsTime").textContent = new Date().toLocaleTimeString("fr-CA", { hour: "2-digit", minute: "2-digit" });
+        document.getElementById("smsRecipient").textContent = patientName;
+        document.getElementById("outputMeta").textContent = profileLabels[selectedProfile] + " · " + substanceLabels[selectedSubstance] + " · " + toneLabels[selectedTone] + " · " + langLabels[selectedLang];
         document.getElementById("guideTitle").textContent = selectedLang === "english" ? "How to talk to " + patientName : "Comment parler à " + patientName;
+        document.getElementById("scriptTitle").textContent = selectedLang === "english" ? "What to say to " + patientName : "Ce que vous pouvez dire à " + patientName;
         document.getElementById("formView").classList.add("hidden");
         document.getElementById("outputView").classList.remove("hidden");
         document.querySelectorAll(".tab").forEach((t, i) => t.classList.toggle("active", i === 0));
-        document.getElementById("letterTab").classList.remove("hidden");
-        document.getElementById("guideTab").classList.add("hidden");
+        ["letter","guide","sms","script"].forEach((t, i) => document.getElementById(t+"Tab").classList.toggle("hidden", i !== 0));
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
-        errorBox.textContent = "⚠️ " + (letterData.error || guideData.error || "Something went wrong. Please try again.");
+        errorBox.textContent = "⚠️ " + (letterData.error || guideData.error || smsData.error || scriptData.error || "Something went wrong.");
         errorBox.classList.remove("hidden");
       }
     } catch(err) {
@@ -231,7 +454,7 @@
       errorBox.classList.remove("hidden");
     } finally {
       generateBtn.disabled = false;
-      generateBtn.textContent = "✉️ Generate Letter + Conversation Guide";
+      generateBtn.textContent = "✨ Generate All 4 Outputs";
       loadingText.classList.add("hidden");
     }
   }
@@ -239,101 +462,64 @@
   function downloadPDF(type) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ unit: "mm", format: "a4" });
-    const isLetter = type === "letter";
-    const rawText = document.getElementById(isLetter ? "letterBody" : "guideBody").textContent;
-    const title = isLetter ? "Lettre d'intervention" : "Guide de conversation";
-    const filename = isLetter ? "lettre-" + currentPatientName + ".pdf" : "guide-" + currentSenderName + ".pdf";
+    const map = { letter: { el: "letterBody", title: "Lettre d'intervention", file: "lettre-" + currentPatientName + ".pdf" }, guide: { el: "guideBody", title: "Guide de conversation", file: "guide-" + currentSenderName + ".pdf" }, script: { el: "scriptBody", title: "Script de conversation", file: "script-" + currentSenderName + ".pdf" } };
+    const cfg = map[type];
+    const rawText = document.getElementById(cfg.el).textContent;
     const date = new Date().toLocaleDateString("fr-CA", { year: "numeric", month: "long", day: "numeric" });
-    const margin = 22;
-    const pageWidth = 210;
-    const usableWidth = pageWidth - margin * 2;
-    const pageHeight = 297;
-    const bottomMargin = 22;
+    const margin = 22, pageWidth = 210, usableWidth = pageWidth - margin * 2, pageHeight = 297, bottomMargin = 22;
 
     function parseMarkdown(text) {
-      const segments = [];
+      const segs = [];
       text.split("\n").forEach(line => {
-        if (line.startsWith("### ")) segments.push({ type: "h3", text: line.replace(/^### /, "") });
-        else if (line.startsWith("## ")) segments.push({ type: "h2", text: line.replace(/^## /, "") });
-        else if (line.startsWith("# ")) segments.push({ type: "h1", text: line.replace(/^# /, "") });
-        else if (line.match(/^\*\*(.+)\*\*$/)) segments.push({ type: "bold", text: line.replace(/\*\*/g, "") });
-        else if (line.startsWith("- ") || line.startsWith("• ")) segments.push({ type: "bullet", text: line.replace(/^[-•] /, "") });
-        else if (line.match(/^---+$/)) segments.push({ type: "divider" });
-        else if (line.trim() === "") segments.push({ type: "space" });
-        else segments.push({ type: "body", text: line.replace(/\*\*(.+?)\*\*/g, "$1") });
+        if (line.startsWith("### ")) segs.push({ type: "h3", text: line.replace(/^### /, "") });
+        else if (line.startsWith("## ")) segs.push({ type: "h2", text: line.replace(/^## /, "") });
+        else if (line.startsWith("# ")) segs.push({ type: "h1", text: line.replace(/^# /, "") });
+        else if (line.match(/^\*\*(.+)\*\*$/)) segs.push({ type: "bold", text: line.replace(/\*\*/g, "") });
+        else if (line.startsWith("- ") || line.startsWith("• ")) segs.push({ type: "bullet", text: line.replace(/^[-•] /, "") });
+        else if (line.match(/^---+$/)) segs.push({ type: "divider" });
+        else if (line.trim() === "") segs.push({ type: "space" });
+        else segs.push({ type: "body", text: line.replace(/\*\*(.+?)\*\*/g, "$1") });
       });
-      return segments;
+      return segs;
     }
 
-    function addPageHeader() {
-      doc.setFillColor(15, 30, 53);
-      doc.rect(0, 0, 210, 28, "F");
-      doc.setTextColor(42, 127, 127); doc.setFontSize(7); doc.setFont("helvetica", "bold");
-      doc.text("EHN NOUVEAU DÉPART", margin, 10);
-      doc.setTextColor(248, 245, 240); doc.setFontSize(15);
-      doc.text(title, margin, 21);
-      doc.setFontSize(9); doc.setFont("helvetica", "normal"); doc.setTextColor(180, 180, 180);
-      doc.text(date, pageWidth - margin, 21, { align: "right" });
-      doc.setDrawColor(42, 127, 127); doc.setLineWidth(0.5);
-      doc.line(margin, 32, pageWidth - margin, 32);
+    function addHeader() {
+      doc.setFillColor(15, 30, 53); doc.rect(0, 0, 210, 28, "F");
+      doc.setTextColor(42, 127, 127); doc.setFontSize(7); doc.setFont("helvetica", "bold"); doc.text("EHN NOUVEAU DÉPART", margin, 10);
+      doc.setTextColor(248, 245, 240); doc.setFontSize(15); doc.text(cfg.title, margin, 21);
+      doc.setFontSize(9); doc.setFont("helvetica", "normal"); doc.setTextColor(180, 180, 180); doc.text(date, pageWidth - margin, 21, { align: "right" });
+      doc.setDrawColor(42, 127, 127); doc.setLineWidth(0.5); doc.line(margin, 32, pageWidth - margin, 32);
     }
-
-    function addPageFooter() {
+    function addFooter() {
       doc.setFontSize(8); doc.setFont("helvetica", "normal"); doc.setTextColor(160, 160, 160);
       doc.text("EHN Nouveau Départ  ·  1-800-461-0140  ·  nouveaudepart.net", pageWidth / 2, pageHeight - 10, { align: "center" });
     }
-
-    function checkNewPage(y, needed) {
-      if (y + needed > pageHeight - bottomMargin) { addPageFooter(); doc.addPage(); addPageHeader(); return 40; }
-      return y;
+    function checkPage(y, needed) {
+      if (y + needed > pageHeight - bottomMargin) { addFooter(); doc.addPage(); addHeader(); return 40; } return y;
     }
 
-    addPageHeader();
+    addHeader();
     let y = 40;
-
     parseMarkdown(rawText).forEach(seg => {
       switch(seg.type) {
-        case "h1":
-          y = checkNewPage(y, 14);
-          doc.setFontSize(16); doc.setFont("helvetica", "bold"); doc.setTextColor(15, 30, 53);
-          doc.splitTextToSize(seg.text, usableWidth).forEach(l => { doc.text(l, margin, y); y += 8; }); y += 2; break;
-        case "h2":
-          y = checkNewPage(y, 14); y += 3;
-          doc.setFillColor(42, 127, 127); doc.rect(margin, y - 5, 3, 8, "F");
-          doc.setFontSize(13); doc.setFont("helvetica", "bold"); doc.setTextColor(15, 30, 53);
-          doc.splitTextToSize(seg.text, usableWidth - 6).forEach(l => { doc.text(l, margin + 6, y); y += 7; }); y += 3; break;
-        case "h3":
-          y = checkNewPage(y, 10);
-          doc.setFontSize(11); doc.setFont("helvetica", "bold"); doc.setTextColor(42, 127, 127);
-          doc.splitTextToSize(seg.text, usableWidth).forEach(l => { doc.text(l, margin, y); y += 6; }); y += 1; break;
-        case "bold":
-          y = checkNewPage(y, 8);
-          doc.setFontSize(11); doc.setFont("helvetica", "bold"); doc.setTextColor(30, 30, 30);
-          doc.splitTextToSize(seg.text, usableWidth).forEach(l => { doc.text(l, margin, y); y += 6; }); y += 1; break;
-        case "bullet":
-          y = checkNewPage(y, 7);
-          doc.setFontSize(10.5); doc.setFont("helvetica", "normal"); doc.setTextColor(50, 50, 50);
-          doc.setFillColor(42, 127, 127); doc.circle(margin + 1.5, y - 1.5, 1, "F");
-          const blines = doc.splitTextToSize(seg.text, usableWidth - 8);
-          blines.forEach((l, i) => { doc.text(l, margin + 6, y + (i * 5.5)); }); y += blines.length * 5.5 + 1; break;
-        case "divider":
-          y += 3; doc.setDrawColor(200, 200, 200); doc.setLineWidth(0.3);
-          doc.line(margin, y, pageWidth - margin, y); y += 5; break;
+        case "h1": y = checkPage(y, 14); doc.setFontSize(16); doc.setFont("helvetica", "bold"); doc.setTextColor(15, 30, 53); doc.splitTextToSize(seg.text, usableWidth).forEach(l => { doc.text(l, margin, y); y += 8; }); y += 2; break;
+        case "h2": y = checkPage(y, 14); y += 3; doc.setFillColor(42, 127, 127); doc.rect(margin, y - 5, 3, 8, "F"); doc.setFontSize(13); doc.setFont("helvetica", "bold"); doc.setTextColor(15, 30, 53); doc.splitTextToSize(seg.text, usableWidth - 6).forEach(l => { doc.text(l, margin + 6, y); y += 7; }); y += 3; break;
+        case "h3": y = checkPage(y, 10); doc.setFontSize(11); doc.setFont("helvetica", "bold"); doc.setTextColor(42, 127, 127); doc.splitTextToSize(seg.text, usableWidth).forEach(l => { doc.text(l, margin, y); y += 6; }); y += 1; break;
+        case "bold": y = checkPage(y, 8); doc.setFontSize(11); doc.setFont("helvetica", "bold"); doc.setTextColor(30, 30, 30); doc.splitTextToSize(seg.text, usableWidth).forEach(l => { doc.text(l, margin, y); y += 6; }); y += 1; break;
+        case "bullet": y = checkPage(y, 7); doc.setFontSize(10.5); doc.setFont("helvetica", "normal"); doc.setTextColor(50, 50, 50); doc.setFillColor(42, 127, 127); doc.circle(margin + 1.5, y - 1.5, 1, "F"); const bl = doc.splitTextToSize(seg.text, usableWidth - 8); bl.forEach((l, i) => { doc.text(l, margin + 6, y + (i * 5.5)); }); y += bl.length * 5.5 + 1; break;
+        case "divider": y += 3; doc.setDrawColor(200, 200, 200); doc.setLineWidth(0.3); doc.line(margin, y, pageWidth - margin, y); y += 5; break;
         case "space": y += 3; break;
-        case "body":
-          y = checkNewPage(y, 7);
-          doc.setFontSize(10.5); doc.setFont("helvetica", "normal"); doc.setTextColor(50, 50, 50);
-          doc.splitTextToSize(seg.text, usableWidth).forEach(l => { doc.text(l, margin, y); y += 5.5; }); break;
+        case "body": y = checkPage(y, 7); doc.setFontSize(10.5); doc.setFont("helvetica", "normal"); doc.setTextColor(50, 50, 50); doc.splitTextToSize(seg.text, usableWidth).forEach(l => { doc.text(l, margin, y); y += 5.5; }); break;
       }
     });
-
-    addPageFooter();
-    doc.save(filename);
+    addFooter();
+    doc.save(cfg.file);
   }
 
   function copyText(elementId, btnId) {
-    const text = document.getElementById(elementId).textContent;
-    navigator.clipboard.writeText(text).then(() => { const btn = document.getElementById(btnId); btn.textContent = "✅ Copied!"; setTimeout(() => { btn.textContent = "📋 Copy"; }, 2000); });
+    navigator.clipboard.writeText(document.getElementById(elementId).textContent).then(() => {
+      const btn = document.getElementById(btnId); btn.textContent = "✅ Copied!"; setTimeout(() => { btn.textContent = "📋 Copy"; }, 2000);
+    });
   }
 
   function resetForm() { document.getElementById("outputView").classList.add("hidden"); document.getElementById("formView").classList.remove("hidden"); document.getElementById("errorBox").classList.add("hidden"); window.scrollTo({ top: 0, behavior: "smooth" }); }
