@@ -164,7 +164,7 @@
       </div>
 
       <div id="errorBox" class="error-box hidden"></div>
-      <button class="btn-generate" id="generateBtn" onclick="generateAll()">✨ Generate All 4 Outputs / Générer les 4 résultats</button>
+      <button class="btn-generate" id="generateBtn" onclick="generateAll()">✨ Generate All 6 Outputs / Générer les 6 résultats</button>
       <p class="loading-text hidden" id="loadingText">Generating letter, guide, SMS and script... / Génération de la lettre, du guide, du SMS et du script... (30–40 sec)</p>
     </div>
 
@@ -607,7 +607,7 @@ Return ONLY the Plan B guide.`;
       errorBox.classList.remove("hidden");
     } finally {
       generateBtn.disabled = false;
-      generateBtn.textContent = "✨ Generate All 4 Outputs / Générer les 4 résultats";
+      generateBtn.textContent = "✨ Generate All 6 Outputs / Générer les 6 résultats";
       loadingText.classList.add("hidden");
     }
   }
