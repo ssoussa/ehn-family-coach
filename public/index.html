@@ -178,11 +178,13 @@
         <button class="btn-back" onclick="resetForm()">← New / Nouveau</button>
       </div>
 
-      <div class="tabs">
-        <button class="tab active" onclick="showTab('letter', this)">✉️ Letter / Lettre</button>
+      <div class="tabs" style="flex-wrap:wrap;">
+        <button class="tab active" onclick="showTab('letter', this)">✉️ Letter</button>
         <button class="tab" onclick="showTab('guide', this)">📋 Guide</button>
         <button class="tab" onclick="showTab('sms', this)">💬 SMS</button>
         <button class="tab" onclick="showTab('script', this)">🎭 Script</button>
+        <button class="tab" onclick="showTab('planb', this)">🔄 Plan B</button>
+        <button class="tab" onclick="showTab('firstcall', this)">📞 First Call</button>
       </div>
 
       <!-- LETTER TAB -->
@@ -193,6 +195,9 @@
             <div class="letterhead-date" id="letterDate"></div>
           </div>
           <div class="letter-body" id="letterBody"></div>
+          <div style="margin-top:32px;padding-top:16px;border-top:1px solid #ddd;font-size:10px;color:#999;font-family:helvetica,sans-serif;line-height:1.5;">
+            <strong>DISCLAIMER / AVIS DE NON-RESPONSABILITÉ:</strong> This document was generated as a communication support tool. Edgewood Health Network (EHN) is not responsible for the outcome of any conversation, intervention, or decision made based on the content of this document. This is not a substitute for professional medical or psychological advice. / Ce document a été généré comme outil de soutien à la communication. Edgewood Health Network (EHN) n'est pas responsable des résultats de toute conversation, intervention ou décision prise sur la base de ce document. Ceci ne remplace pas un avis médical ou psychologique professionnel.
+          </div>
         </div>
         <div class="btn-row">
           <button class="btn-copy" id="copyLetterBtn" onclick="copyText('letterBody','copyLetterBtn')">📋 Copy / Copier</button>
@@ -209,6 +214,9 @@
             <div class="guide-title" id="guideTitle">Comment parler à votre proche / How to talk to your loved one</div>
           </div>
           <div class="guide-body" id="guideBody"></div>
+          <div style="margin-top:32px;padding-top:16px;border-top:1px solid #ddd;font-size:10px;color:#999;font-family:helvetica,sans-serif;line-height:1.5;">
+            <strong>DISCLAIMER / AVIS DE NON-RESPONSABILITÉ:</strong> This document was generated as a communication support tool. Edgewood Health Network (EHN) is not responsible for the outcome of any conversation, intervention, or decision made based on the content of this document. This is not a substitute for professional medical or psychological advice. / Ce document a été généré comme outil de soutien à la communication. Edgewood Health Network (EHN) n'est pas responsable des résultats de toute conversation, intervention ou décision prise sur la base de ce document. Ceci ne remplace pas un avis médical ou psychologique professionnel.
+          </div>
         </div>
         <div class="btn-row">
           <button class="btn-copy" id="copyGuideBtn" onclick="copyText('guideBody','copyGuideBtn')">📋 Copy / Copier</button>
@@ -227,6 +235,9 @@
           <div class="sms-bubble" id="smsBody"></div>
           <div class="sms-time" id="smsTime"></div>
         </div>
+        <div style="max-width:380px;margin:0 auto 12px;font-size:10px;color:rgba(248,245,240,0.3);line-height:1.5;text-align:center;">
+          Disclaimer: EHN is not responsible for the outcome of this communication. / EHN n'est pas responsable des résultats de cette communication.
+        </div>
         <div class="btn-row" style="max-width:380px;margin:0 auto;">
           <button class="btn-copy" id="copySmsBtn" onclick="copyText('smsBody','copySmsBtn')">📋 Copy SMS / Copier</button>
           <button class="btn-regen" onclick="generateAll()">🔄 Regenerate / Régénérer</button>
@@ -241,6 +252,9 @@
             <div class="guide-title" id="scriptTitle">Ce que vous pouvez dire / What you can say</div>
           </div>
           <div class="script-body" id="scriptBody"></div>
+          <div style="margin-top:32px;padding-top:16px;border-top:1px solid #ddd;font-size:10px;color:#999;font-family:helvetica,sans-serif;line-height:1.5;">
+            <strong>DISCLAIMER / AVIS DE NON-RESPONSABILITÉ:</strong> This document was generated as a communication support tool. Edgewood Health Network (EHN) is not responsible for the outcome of any conversation, intervention, or decision made based on the content of this document. This is not a substitute for professional medical or psychological advice. / Ce document a été généré comme outil de soutien à la communication. Edgewood Health Network (EHN) n'est pas responsable des résultats de toute conversation, intervention ou décision prise sur la base de ce document. Ceci ne remplace pas un avis médical ou psychologique professionnel.
+          </div>
         </div>
         <div class="btn-row">
           <button class="btn-copy" id="copyScriptBtn" onclick="copyText('scriptBody','copyScriptBtn')">📋 Copy / Copier</button>
@@ -249,7 +263,53 @@
         </div>
       </div>
 
-      <div class="info-box">💡 Review all outputs before sharing. Personalize further if needed. / Révisez tous les résultats avant de partager. Personnalisez au besoin.</div>
+      <!-- PLAN B TAB -->
+      <div id="planbTab" class="hidden">
+        <div class="card" style="border-color:rgba(232,165,75,0.3);background:rgba(232,165,75,0.05);">
+          <span class="card-label" style="color:#E8A54B;">🔄 Plan B — What happened? / Qu'est-ce qui s'est passé?</span>
+          <p class="field-label" style="margin-bottom:12px;">Describe what happened when they tried the first approach. What was the reaction? / Décrivez ce qui s'est passé lors de la première tentative. Quelle a été la réaction?</p>
+          <textarea id="planbNotes" style="height:120px;" placeholder="Ex: He got very angry and left the room. He said he never wants to talk about this again and that we're all against him. / Il s'est mis en colère et a quitté la pièce. Il a dit qu'il ne voulait plus jamais en parler..."></textarea>
+          <button class="btn-generate" style="margin-top:12px;padding:14px;" id="planbBtn" onclick="generatePlanB()">🔄 Generate Plan B / Générer Plan B</button>
+          <p class="loading-text hidden" id="planbLoading">Generating Plan B strategy... / Génération de la stratégie Plan B...</p>
+        </div>
+        <div id="planbOutput" class="hidden">
+          <div class="guide-preview">
+            <div class="guide-header">
+              <div class="guide-subtitle">Plan B Strategy / Stratégie Plan B — EHN Nouveau Départ</div>
+              <div class="guide-title">New approach / Nouvelle approche</div>
+            </div>
+            <div class="guide-body" id="planbBody"></div>
+            <div style="margin-top:32px;padding-top:16px;border-top:1px solid #ddd;font-size:10px;color:#999;font-family:helvetica,sans-serif;line-height:1.5;">
+              <strong>DISCLAIMER / AVIS DE NON-RESPONSABILITÉ:</strong> This document was generated as a communication support tool. Edgewood Health Network (EHN) is not responsible for the outcome of any conversation, intervention, or decision made based on the content of this document. / Ce document a été généré comme outil de soutien à la communication. Edgewood Health Network (EHN) n'est pas responsable des résultats de toute conversation, intervention ou décision prise sur la base de ce document.
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn-copy" id="copyPlanbBtn" onclick="copyText('planbBody','copyPlanbBtn')">📋 Copy / Copier</button>
+            <button class="btn-pdf" onclick="downloadPDF('planb')">📄 PDF</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- FIRST CALL TAB -->
+      <div id="firstcallTab" class="hidden">
+        <div class="guide-preview">
+          <div class="guide-header">
+            <div class="guide-subtitle" style="color:#2A7F7F;">📞 Admissions Team Guide / Guide équipe admissions — EHN Nouveau Départ</div>
+            <div class="guide-title" id="firstcallTitle">First Call Navigation / Navigation premier appel</div>
+          </div>
+          <div class="guide-body" id="firstcallBody"></div>
+          <div style="margin-top:32px;padding-top:16px;border-top:1px solid #ddd;font-size:10px;color:#999;font-family:helvetica,sans-serif;line-height:1.5;">
+            <strong>DISCLAIMER / AVIS DE NON-RESPONSABILITÉ:</strong> This document was generated as an internal admissions support tool. Edgewood Health Network (EHN) is not responsible for the outcome of any conversation or admission decision based on this document. This is not a substitute for clinical assessment. / Ce document a été généré comme outil de soutien interne aux admissions. Edgewood Health Network (EHN) n'est pas responsable des résultats de toute conversation ou décision d'admission basée sur ce document. Ceci ne remplace pas une évaluation clinique.
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn-copy" id="copyFirstcallBtn" onclick="copyText('firstcallBody','copyFirstcallBtn')">📋 Copy / Copier</button>
+          <button class="btn-pdf" onclick="downloadPDF('firstcall')">📄 PDF</button>
+          <button class="btn-regen" onclick="generateAll()">🔄 Regenerate / Régénérer</button>
+        </div>
+      </div>
+
+      <div class="info-box">💡 Review all outputs before sharing. / Révisez tous les résultats avant de partager. &nbsp;|&nbsp; <strong>EHN is not responsible for the outcome of these conversations. / EHN n'est pas responsable des résultats de ces conversations.</strong></div>
     </div>
   </div>
 </div>
@@ -298,7 +358,7 @@
 
   function showTab(tab, el) {
     document.querySelectorAll(".tab").forEach(t => t.classList.remove("active")); el.classList.add("active");
-    ["letter","guide","sms","script"].forEach(t => document.getElementById(t+"Tab").classList.toggle("hidden", t !== tab));
+    ["letter","guide","sms","script","planb","firstcall"].forEach(t => document.getElementById(t+"Tab").classList.toggle("hidden", t !== tab));
   }
 
   function getLangInstruction(lang) {
@@ -402,6 +462,94 @@ FORMAT:
 Return ONLY the script.`;
   }
 
+  function buildFirstCallPrompt(notes, senderName, patientName) {
+    return `You are a senior admissions counselor at EHN Canada / Nouveau Départ in Montreal, one of Canada's leading addiction treatment centers.
+
+A family intervention was successful. ${patientName} is now calling EHN for the FIRST TIME, likely nervous, uncertain, or still ambivalent. The admissions agent needs a complete guide on how to handle this call and move toward a confirmed admission.
+
+CONTEXT ABOUT THIS PERSON:
+- Caller relationship: ${profileLabels[selectedProfile]} reached out on their behalf
+- Substance: ${substanceLabels[selectedSubstance]}
+- Background from intake notes: ${notes}
+- Language preference: ${getLangInstruction(selectedLang)}
+
+Create a detailed admissions agent guide with these sections:
+
+## 1. Opening the call (first 60 seconds)
+Exact words to use. How to set a warm, non-judgmental tone immediately. What NOT to say.
+
+## 2. Key questions to ask in the first 2 minutes
+Specific questions to understand their situation, readiness level, and immediate needs. Frame each question with HOW to ask it (tone, pacing).
+
+## 3. Handling ambivalence and hesitation
+They may say "I'm not sure I'm ready" or "I just wanted information." Scripts for keeping them engaged without pressure.
+
+## 4. Addressing the most common fears
+Fear of cost, fear of leaving family/job, fear of withdrawal, shame. Specific responses to each.
+
+## 5. Presenting EHN without sounding salesy
+How to describe EHN's programs in a way that feels human and reassuring, not like a sales pitch.
+
+## 6. Moving toward admission
+How to close toward a next step — whether that's a clinical intake call, a visit, or a confirmed admission date. Exact language to use.
+
+## 7. If they say they need to think about it
+How to leave the door open, what to say, how to follow up without being pushy.
+
+## 8. Red flags to watch for
+Signs of acute crisis that require immediate escalation.
+
+Make every section specific to this person's substance, background, and situation. This guide is for internal admissions team use only.
+
+Return ONLY the guide.`;
+  }
+
+  function buildPlanBPrompt(notes, senderName, patientName, whatHappened) {
+    return `You are a professional interventionist at EHN Canada / Nouveau Départ in Montreal.
+
+A family intervention was attempted but did NOT work. The family member (${senderName}, ${profileLabels[selectedProfile]}) tried to reach ${patientName} about their ${substanceLabels[selectedSubstance]} problem, but it failed.
+
+ORIGINAL SITUATION:
+${notes}
+
+WHAT HAPPENED WHEN THEY TRIED:
+${whatHappened}
+
+LANGUAGE: ${getLangInstruction(selectedLang)}
+
+Generate a completely different Plan B strategy. Do NOT repeat the same approach. Think differently:
+- Who else could deliver the message? (Different family member, friend, employer, doctor)
+- What angle hasn't been tried? (Financial consequences, children's perspective, health scare)
+- What environment or timing would work better?
+- Should they try a structured intervention with a professional interventionist?
+- Should they step back and use strategic silence/boundaries instead?
+
+Structure your Plan B as:
+
+## Why the first attempt didn't work
+Brief honest analysis of what went wrong based on the reaction described.
+
+## The new strategy
+A completely different approach, specific and actionable.
+
+## Who should deliver it
+The ideal messenger for this new approach and why.
+
+## New script / talking points
+What to say this time — different words, different angle.
+
+## Boundaries to set now
+What ${senderName} should stop doing and start doing regardless of outcome.
+
+## When to call a professional interventionist
+Signs that indicate they need to bring in a professional (and EHN can help with that too).
+
+## Final message of encouragement for ${senderName}
+They tried. They're still fighting. Give them strength.
+
+Return ONLY the Plan B guide.`;
+  }
+
   async function generateAll() {
     const notes = document.getElementById("notes").value.trim();
     const senderName = document.getElementById("senderName").value.trim() || "la famille";
@@ -413,40 +561,45 @@ Return ONLY the script.`;
     if (!notes) { errorBox.textContent = "⚠️ Please paste your call notes first."; errorBox.classList.remove("hidden"); return; }
     errorBox.classList.add("hidden");
     generateBtn.disabled = true;
-    generateBtn.textContent = "⏳ Generating 4 outputs...";
+    generateBtn.textContent = "⏳ Generating 5 outputs...";
     loadingText.classList.remove("hidden");
     document.getElementById("outputView").classList.add("hidden");
 
     try {
-      const [letterRes, guideRes, smsRes, scriptRes] = await Promise.all([
+      const [letterRes, guideRes, smsRes, scriptRes, firstcallRes] = await Promise.all([
         fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ prompt: buildLetterPrompt(notes, senderName, patientName) }) }),
         fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ prompt: buildGuidePrompt(notes, senderName, patientName) }) }),
         fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ prompt: buildSMSPrompt(notes, senderName, patientName) }) }),
-        fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ prompt: buildScriptPrompt(notes, senderName, patientName) }) })
+        fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ prompt: buildScriptPrompt(notes, senderName, patientName) }) }),
+        fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ prompt: buildFirstCallPrompt(notes, senderName, patientName) }) })
       ]);
 
-      const [letterData, guideData, smsData, scriptData] = await Promise.all([letterRes.json(), guideRes.json(), smsRes.json(), scriptRes.json()]);
+      const [letterData, guideData, smsData, scriptData, firstcallData] = await Promise.all([letterRes.json(), guideRes.json(), smsRes.json(), scriptRes.json(), firstcallRes.json()]);
 
-      if (letterData.letter && guideData.letter && smsData.letter && scriptData.letter) {
+      if (letterData.letter && guideData.letter && smsData.letter && scriptData.letter && firstcallData.letter) {
         currentPatientName = patientName;
         currentSenderName = senderName;
         document.getElementById("letterBody").textContent = letterData.letter;
         document.getElementById("guideBody").textContent = guideData.letter;
         document.getElementById("smsBody").textContent = smsData.letter;
         document.getElementById("scriptBody").textContent = scriptData.letter;
+        document.getElementById("firstcallBody").textContent = firstcallData.letter;
         document.getElementById("letterDate").textContent = new Date().toLocaleDateString("fr-CA", { year: "numeric", month: "long", day: "numeric" });
         document.getElementById("smsTime").textContent = new Date().toLocaleTimeString("fr-CA", { hour: "2-digit", minute: "2-digit" });
         document.getElementById("smsRecipient").textContent = patientName;
         document.getElementById("outputMeta").textContent = profileLabels[selectedProfile] + " · " + substanceLabels[selectedSubstance] + " · " + toneLabels[selectedTone] + " · " + langLabels[selectedLang];
         document.getElementById("guideTitle").textContent = selectedLang === "english" ? "How to talk to " + patientName : "Comment parler à " + patientName;
         document.getElementById("scriptTitle").textContent = selectedLang === "english" ? "What to say to " + patientName : "Ce que vous pouvez dire à " + patientName;
+        document.getElementById("firstcallTitle").textContent = selectedLang === "english" ? "First call guide for " + patientName : "Guide premier appel pour " + patientName;
+        document.getElementById("planbOutput").classList.add("hidden");
+        document.getElementById("planbNotes").value = "";
         document.getElementById("formView").classList.add("hidden");
         document.getElementById("outputView").classList.remove("hidden");
         document.querySelectorAll(".tab").forEach((t, i) => t.classList.toggle("active", i === 0));
-        ["letter","guide","sms","script"].forEach((t, i) => document.getElementById(t+"Tab").classList.toggle("hidden", i !== 0));
+        ["letter","guide","sms","script","planb","firstcall"].forEach((t, i) => document.getElementById(t+"Tab").classList.toggle("hidden", i !== 0));
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
-        errorBox.textContent = "⚠️ " + (letterData.error || guideData.error || smsData.error || scriptData.error || "Something went wrong.");
+        errorBox.textContent = "⚠️ " + (letterData.error || guideData.error || smsData.error || scriptData.error || firstcallData.error || "Something went wrong.");
         errorBox.classList.remove("hidden");
       }
     } catch(err) {
@@ -454,15 +607,37 @@ Return ONLY the script.`;
       errorBox.classList.remove("hidden");
     } finally {
       generateBtn.disabled = false;
-      generateBtn.textContent = "✨ Generate All 4 Outputs";
+      generateBtn.textContent = "✨ Generate All 4 Outputs / Générer les 4 résultats";
       loadingText.classList.add("hidden");
     }
+  }
+
+  async function generatePlanB() {
+    const whatHappened = document.getElementById("planbNotes").value.trim();
+    const notes = document.getElementById("notes").value.trim();
+    const senderName = document.getElementById("senderName").value.trim() || "la famille";
+    const patientName = document.getElementById("patientName").value.trim() || "leur proche";
+    const btn = document.getElementById("planbBtn");
+    const loading = document.getElementById("planbLoading");
+    if (!whatHappened) { alert("Please describe what happened when they tried. / Veuillez décrire ce qui s'est passé."); return; }
+    btn.disabled = true; btn.textContent = "⏳ Generating...";
+    loading.classList.remove("hidden");
+    document.getElementById("planbOutput").classList.add("hidden");
+    try {
+      const res = await fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ prompt: buildPlanBPrompt(notes, senderName, patientName, whatHappened) }) });
+      const data = await res.json();
+      if (data.letter) {
+        document.getElementById("planbBody").textContent = data.letter;
+        document.getElementById("planbOutput").classList.remove("hidden");
+      } else { alert("Error generating Plan B. Please try again. / Erreur. Veuillez réessayer."); }
+    } catch(e) { alert("Connection error. / Erreur de connexion."); }
+    finally { btn.disabled = false; btn.textContent = "🔄 Generate Plan B / Générer Plan B"; loading.classList.add("hidden"); }
   }
 
   function downloadPDF(type) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ unit: "mm", format: "a4" });
-    const map = { letter: { el: "letterBody", title: "Lettre d'intervention", file: "lettre-" + currentPatientName + ".pdf" }, guide: { el: "guideBody", title: "Guide de conversation", file: "guide-" + currentSenderName + ".pdf" }, script: { el: "scriptBody", title: "Script de conversation", file: "script-" + currentSenderName + ".pdf" } };
+    const map = { letter: { el: "letterBody", title: "Lettre d'intervention", file: "lettre-" + currentPatientName + ".pdf" }, guide: { el: "guideBody", title: "Guide de conversation", file: "guide-" + currentSenderName + ".pdf" }, script: { el: "scriptBody", title: "Script de conversation", file: "script-" + currentSenderName + ".pdf" }, planb: { el: "planbBody", title: "Plan B — Nouvelle stratégie", file: "planb-" + currentPatientName + ".pdf" }, firstcall: { el: "firstcallBody", title: "Guide — Premier appel", file: "firstcall-" + currentPatientName + ".pdf" } };
     const cfg = map[type];
     const rawText = document.getElementById(cfg.el).textContent;
     const date = new Date().toLocaleDateString("fr-CA", { year: "numeric", month: "long", day: "numeric" });
@@ -512,9 +687,19 @@ Return ONLY the script.`;
         case "body": y = checkPage(y, 7); doc.setFontSize(10.5); doc.setFont("helvetica", "normal"); doc.setTextColor(50, 50, 50); doc.splitTextToSize(seg.text, usableWidth).forEach(l => { doc.text(l, margin, y); y += 5.5; }); break;
       }
     });
+    // Disclaimer at end
+    y = checkPage(y, 20);
+    y += 5;
+    doc.setDrawColor(200,200,200); doc.setLineWidth(0.3); doc.line(margin, y, pageWidth - margin, y); y += 6;
+    doc.setFontSize(7.5); doc.setFont("helvetica", "italic"); doc.setTextColor(140, 140, 140);
+    const disclaimerLines = doc.splitTextToSize("DISCLAIMER / AVIS DE NON-RESPONSABILITÉ: This document was generated as a communication support tool. Edgewood Health Network (EHN) is not responsible for the outcome of any conversation, intervention, or decision made based on the content of this document. This is not a substitute for professional medical or psychological advice. / Ce document a été généré comme outil de soutien à la communication. Edgewood Health Network (EHN) n'est pas responsable des résultats de toute conversation, intervention ou décision prise sur la base de ce document. Ceci ne remplace pas un avis médical ou psychologique professionnel.", usableWidth);
+    disclaimerLines.forEach(l => { if (y + 4 < pageHeight - bottomMargin) { doc.text(l, margin, y); y += 4; } });
+
     addFooter();
     doc.save(cfg.file);
   }
+
+  const DISCLAIMER = "";
 
   function copyText(elementId, btnId) {
     navigator.clipboard.writeText(document.getElementById(elementId).textContent).then(() => {
