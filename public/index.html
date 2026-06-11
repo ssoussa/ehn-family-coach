@@ -88,7 +88,7 @@
     <div>
       <div class="header-brand"><span class="header-dot"></span>EHN Nouveau Départ</div>
       <h1>Family Coach AI</h1>
-      <p>Letter · Guide · SMS · Script</p>
+      <p>Letter · Guide · SMS · Script / Lettre · Guide · SMS · Script</p>
     </div>
     <div class="badge">🔒 Internal Use Only</div>
   </div>
@@ -97,10 +97,10 @@
 
       <!-- Step 1: Names -->
       <div class="card">
-        <span class="card-label">Step 1 — Names</span>
+        <span class="card-label">Step 1 — Names / Noms</span>
         <div class="grid-2">
-          <div><p class="field-label">Family member / caller</p><input type="text" id="senderName" placeholder="e.g. Marie Tremblay" /></div>
-          <div><p class="field-label">Patient / loved one</p><input type="text" id="patientName" placeholder="e.g. Mathieu" /></div>
+          <div><p class="field-label">Family member / caller — Membre de la famille / appelant(e)</p><input type="text" id="senderName" placeholder="e.g. Marie Tremblay" /></div>
+          <div><p class="field-label">Patient / loved one — Patient / proche</p><input type="text" id="patientName" placeholder="e.g. Mathieu" /></div>
         </div>
       </div>
 
@@ -136,18 +136,18 @@
 
       <!-- Step 4: Tone -->
       <div class="card">
-        <span class="card-label">Step 4 — Tone</span>
+        <span class="card-label">Step 4 — Tone / Ton</span>
         <div class="grid-2">
-          <div class="tone-tile selected" data-tone="loving" onclick="selectTone(this)"><div class="title">💛 Loving & Compassionate</div><div class="desc">Warm, emotional, focuses on love and family bonds</div></div>
-          <div class="tone-tile" data-tone="firm" onclick="selectTone(this)"><div class="title">🛑 Firm & Direct</div><div class="desc">Clear boundaries, consequences, non-negotiable urgency</div></div>
-          <div class="tone-tile" data-tone="hopeful" onclick="selectTone(this)"><div class="title">🌱 Hopeful & Forward-Looking</div><div class="desc">Recovery-focused, emphasizes a better future</div></div>
-          <div class="tone-tile" data-tone="urgent" onclick="selectTone(this)"><div class="title">⚡ Urgent & Crisis-Aware</div><div class="desc">Immediate action required, safety concerns present</div></div>
+          <div class="tone-tile selected" data-tone="loving" onclick="selectTone(this)"><div class="title">💛 Loving & Compassionate / Amour & Compassion</div><div class="desc">Warm, emotional — Chaleureux, axé sur les liens familiaux</div></div>
+          <div class="tone-tile" data-tone="firm" onclick="selectTone(this)"><div class="title">🛑 Firm & Direct / Ferme & Direct</div><div class="desc">Clear boundaries — Limites claires, conséquences, urgence</div></div>
+          <div class="tone-tile" data-tone="hopeful" onclick="selectTone(this)"><div class="title">🌱 Hopeful & Forward-Looking / Espoir & Avenir</div><div class="desc">Recovery-focused — Axé sur la guérison et un meilleur avenir</div></div>
+          <div class="tone-tile" data-tone="urgent" onclick="selectTone(this)"><div class="title">⚡ Urgent & Crisis-Aware / Urgent & Crise</div><div class="desc">Immediate action required — Action immédiate requise</div></div>
         </div>
       </div>
 
       <!-- Step 5: Language -->
       <div class="card">
-        <span class="card-label">Step 5 — Language</span>
+        <span class="card-label">Step 5 — Output language / Langue de sortie</span>
         <div class="grid-3">
           <div class="lang-tile selected" data-lang="french" onclick="selectLang(this)">🇨🇦 Français</div>
           <div class="lang-tile" data-lang="english" onclick="selectLang(this)">🇺🇸 English</div>
@@ -157,29 +157,29 @@
 
       <!-- Step 6: Notes -->
       <div class="card">
-        <span class="card-label">Step 6 — Call notes / intake recap</span>
-        <p class="field-label" style="margin-bottom:12px;">Paste your Salesforce notes, JotForm recap, or any call summary.</p>
-        <textarea id="notes" placeholder="Ex: La mère appelle en pleurs. Son fils de 29 ans consomme de la cocaïne depuis 4 ans..." oninput="updateCharCount()"></textarea>
+        <span class="card-label">Step 6 — Call notes / Notes d'appel</span>
+        <p class="field-label" style="margin-bottom:12px;">Paste your Salesforce notes, JotForm recap, or any call summary. / Collez vos notes Salesforce, résumé JotForm ou tout résumé d'appel.</p>
+        <textarea id="notes" placeholder="Ex: La mère appelle en pleurs. Son fils de 29 ans consomme de la cocaïne depuis 4 ans... / Ex: Mom is calling in tears. Her 29-year-old son has been using cocaine for 4 years..." oninput="updateCharCount()"></textarea>
         <p class="char-count" id="charCount"></p>
       </div>
 
       <div id="errorBox" class="error-box hidden"></div>
-      <button class="btn-generate" id="generateBtn" onclick="generateAll()">✨ Generate All 4 Outputs</button>
-      <p class="loading-text hidden" id="loadingText">Generating letter, guide, SMS and script... this may take 30–40 seconds.</p>
+      <button class="btn-generate" id="generateBtn" onclick="generateAll()">✨ Generate All 4 Outputs / Générer les 4 résultats</button>
+      <p class="loading-text hidden" id="loadingText">Generating letter, guide, SMS and script... / Génération de la lettre, du guide, du SMS et du script... (30–40 sec)</p>
     </div>
 
     <!-- OUTPUT VIEW -->
     <div id="outputView" class="hidden">
       <div class="letter-header-row">
         <div>
-          <h2 style="font-size:20px;font-weight:700;">✅ 4 outputs ready</h2>
+          <h2 style="font-size:20px;font-weight:700;">✅ 4 outputs ready / 4 résultats prêts</h2>
           <p style="font-size:13px;color:rgba(248,245,240,0.4);margin-top:4px;" id="outputMeta"></p>
         </div>
-        <button class="btn-back" onclick="resetForm()">← New</button>
+        <button class="btn-back" onclick="resetForm()">← New / Nouveau</button>
       </div>
 
       <div class="tabs">
-        <button class="tab active" onclick="showTab('letter', this)">✉️ Lettre</button>
+        <button class="tab active" onclick="showTab('letter', this)">✉️ Letter / Lettre</button>
         <button class="tab" onclick="showTab('guide', this)">📋 Guide</button>
         <button class="tab" onclick="showTab('sms', this)">💬 SMS</button>
         <button class="tab" onclick="showTab('script', this)">🎭 Script</button>
@@ -189,15 +189,15 @@
       <div id="letterTab">
         <div class="letter-preview">
           <div class="letterhead">
-            <div><div class="letterhead-brand-label">Préparé avec l'aide de</div><div class="letterhead-brand-name">EHN Nouveau Départ</div></div>
+            <div><div class="letterhead-brand-label">Prepared with / Préparé avec</div><div class="letterhead-brand-name">EHN Nouveau Départ</div></div>
             <div class="letterhead-date" id="letterDate"></div>
           </div>
           <div class="letter-body" id="letterBody"></div>
         </div>
         <div class="btn-row">
-          <button class="btn-copy" id="copyLetterBtn" onclick="copyText('letterBody','copyLetterBtn')">📋 Copy</button>
+          <button class="btn-copy" id="copyLetterBtn" onclick="copyText('letterBody','copyLetterBtn')">📋 Copy / Copier</button>
           <button class="btn-pdf" onclick="downloadPDF('letter')">📄 PDF</button>
-          <button class="btn-regen" onclick="generateAll()">🔄 Regenerate</button>
+          <button class="btn-regen" onclick="generateAll()">🔄 Regenerate / Régénérer</button>
         </div>
       </div>
 
@@ -205,15 +205,15 @@
       <div id="guideTab" class="hidden">
         <div class="guide-preview">
           <div class="guide-header">
-            <div class="guide-subtitle">Guide de conversation — EHN Nouveau Départ</div>
-            <div class="guide-title" id="guideTitle">Comment parler à votre proche</div>
+            <div class="guide-subtitle">Conversation Guide / Guide de conversation — EHN Nouveau Départ</div>
+            <div class="guide-title" id="guideTitle">Comment parler à votre proche / How to talk to your loved one</div>
           </div>
           <div class="guide-body" id="guideBody"></div>
         </div>
         <div class="btn-row">
-          <button class="btn-copy" id="copyGuideBtn" onclick="copyText('guideBody','copyGuideBtn')">📋 Copy</button>
+          <button class="btn-copy" id="copyGuideBtn" onclick="copyText('guideBody','copyGuideBtn')">📋 Copy / Copier</button>
           <button class="btn-pdf" onclick="downloadPDF('guide')">📄 PDF</button>
-          <button class="btn-regen" onclick="generateAll()">🔄 Regenerate</button>
+          <button class="btn-regen" onclick="generateAll()">🔄 Regenerate / Régénérer</button>
         </div>
       </div>
 
@@ -222,14 +222,14 @@
         <div class="sms-phone">
           <div class="sms-topbar">
             <div class="sms-avatar">💬</div>
-            <div><div class="sms-name" id="smsRecipient">Mathieu</div><div class="sms-status">Message texte</div></div>
+            <div><div class="sms-name" id="smsRecipient">Mathieu</div><div class="sms-status">Text message / Message texte</div></div>
           </div>
           <div class="sms-bubble" id="smsBody"></div>
           <div class="sms-time" id="smsTime"></div>
         </div>
         <div class="btn-row" style="max-width:380px;margin:0 auto;">
-          <button class="btn-copy" id="copySmsBtn" onclick="copyText('smsBody','copySmsBtn')">📋 Copy SMS</button>
-          <button class="btn-regen" onclick="generateAll()">🔄 Regenerate</button>
+          <button class="btn-copy" id="copySmsBtn" onclick="copyText('smsBody','copySmsBtn')">📋 Copy SMS / Copier</button>
+          <button class="btn-regen" onclick="generateAll()">🔄 Regenerate / Régénérer</button>
         </div>
       </div>
 
@@ -237,19 +237,19 @@
       <div id="scriptTab" class="hidden">
         <div class="script-preview">
           <div class="guide-header">
-            <div class="guide-subtitle">Script mot-à-mot — EHN Nouveau Départ</div>
-            <div class="guide-title" id="scriptTitle">Ce que vous pouvez dire</div>
+            <div class="guide-subtitle">Word-for-word script / Script mot-à-mot — EHN Nouveau Départ</div>
+            <div class="guide-title" id="scriptTitle">Ce que vous pouvez dire / What you can say</div>
           </div>
           <div class="script-body" id="scriptBody"></div>
         </div>
         <div class="btn-row">
-          <button class="btn-copy" id="copyScriptBtn" onclick="copyText('scriptBody','copyScriptBtn')">📋 Copy</button>
+          <button class="btn-copy" id="copyScriptBtn" onclick="copyText('scriptBody','copyScriptBtn')">📋 Copy / Copier</button>
           <button class="btn-pdf" onclick="downloadPDF('script')">📄 PDF</button>
-          <button class="btn-regen" onclick="generateAll()">🔄 Regenerate</button>
+          <button class="btn-regen" onclick="generateAll()">🔄 Regenerate / Régénérer</button>
         </div>
       </div>
 
-      <div class="info-box">💡 Review all outputs before sharing. Personalize further if needed.</div>
+      <div class="info-box">💡 Review all outputs before sharing. Personalize further if needed. / Révisez tous les résultats avant de partager. Personnalisez au besoin.</div>
     </div>
   </div>
 </div>
