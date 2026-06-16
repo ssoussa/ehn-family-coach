@@ -677,14 +677,14 @@ Return ONLY the Plan B guide.`;
     let y = 40;
     parseMarkdown(rawText).forEach(seg => {
       switch(seg.type) {
-        case "h1": y = checkPage(y, 14); doc.setFontSize(16); doc.setFont("helvetica", "bold"); doc.setTextColor(15, 30, 53); doc.splitTextToSize(seg.text, usableWidth).forEach(l => { doc.text(l, margin, y); y += 8; }); y += 2; break;
-        case "h2": y = checkPage(y, 14); y += 3; doc.setFillColor(42, 127, 127); doc.rect(margin, y - 5, 3, 8, "F"); doc.setFontSize(13); doc.setFont("helvetica", "bold"); doc.setTextColor(15, 30, 53); doc.splitTextToSize(seg.text, usableWidth - 6).forEach(l => { doc.text(l, margin + 6, y); y += 7; }); y += 3; break;
-        case "h3": y = checkPage(y, 10); doc.setFontSize(11); doc.setFont("helvetica", "bold"); doc.setTextColor(42, 127, 127); doc.splitTextToSize(seg.text, usableWidth).forEach(l => { doc.text(l, margin, y); y += 6; }); y += 1; break;
-        case "bold": y = checkPage(y, 8); doc.setFontSize(11); doc.setFont("helvetica", "bold"); doc.setTextColor(30, 30, 30); doc.splitTextToSize(seg.text, usableWidth).forEach(l => { doc.text(l, margin, y); y += 6; }); y += 1; break;
-        case "bullet": y = checkPage(y, 7); doc.setFontSize(10.5); doc.setFont("helvetica", "normal"); doc.setTextColor(50, 50, 50); doc.setFillColor(42, 127, 127); doc.circle(margin + 1.5, y - 1.5, 1, "F"); const bl = doc.splitTextToSize(seg.text, usableWidth - 8); bl.forEach((l, i) => { doc.text(l, margin + 6, y + (i * 5.5)); }); y += bl.length * 5.5 + 1; break;
+        case "h1": doc.setFontSize(16); doc.setFont("helvetica", "bold"); doc.setTextColor(15, 30, 53); doc.splitTextToSize(seg.text, usableWidth).forEach(l => { y = checkPage(y, 9); doc.text(l, margin, y); y += 8; }); y += 2; break;
+        case "h2": y = checkPage(y, 14); y += 3; doc.setFillColor(42, 127, 127); doc.rect(margin, y - 5, 3, 8, "F"); doc.setFontSize(13); doc.setFont("helvetica", "bold"); doc.setTextColor(15, 30, 53); doc.splitTextToSize(seg.text, usableWidth - 6).forEach(l => { y = checkPage(y, 8); doc.text(l, margin + 6, y); y += 7; }); y += 3; break;
+        case "h3": doc.setFontSize(11); doc.setFont("helvetica", "bold"); doc.setTextColor(42, 127, 127); doc.splitTextToSize(seg.text, usableWidth).forEach(l => { y = checkPage(y, 7); doc.text(l, margin, y); y += 6; }); y += 1; break;
+        case "bold": doc.setFontSize(11); doc.setFont("helvetica", "bold"); doc.setTextColor(30, 30, 30); doc.splitTextToSize(seg.text, usableWidth).forEach(l => { y = checkPage(y, 7); doc.text(l, margin, y); y += 6; }); y += 1; break;
+        case "bullet": doc.setFontSize(10.5); doc.setFont("helvetica", "normal"); doc.setTextColor(50, 50, 50); const bl = doc.splitTextToSize(seg.text, usableWidth - 8); bl.forEach((l, i) => { y = checkPage(y, 6); if (i === 0) { doc.setFillColor(42, 127, 127); doc.circle(margin + 1.5, y - 1.5, 1, "F"); } doc.text(l, margin + 6, y); y += 5.5; }); y += 1; break;
         case "divider": y += 3; doc.setDrawColor(200, 200, 200); doc.setLineWidth(0.3); doc.line(margin, y, pageWidth - margin, y); y += 5; break;
         case "space": y += 3; break;
-        case "body": y = checkPage(y, 7); doc.setFontSize(10.5); doc.setFont("helvetica", "normal"); doc.setTextColor(50, 50, 50); doc.splitTextToSize(seg.text, usableWidth).forEach(l => { doc.text(l, margin, y); y += 5.5; }); break;
+        case "body": doc.setFontSize(10.5); doc.setFont("helvetica", "normal"); doc.setTextColor(50, 50, 50); doc.splitTextToSize(seg.text, usableWidth).forEach(l => { y = checkPage(y, 6); doc.text(l, margin, y); y += 5.5; }); break;
       }
     });
     // Disclaimer at end
@@ -693,7 +693,7 @@ Return ONLY the Plan B guide.`;
     doc.setDrawColor(200,200,200); doc.setLineWidth(0.3); doc.line(margin, y, pageWidth - margin, y); y += 6;
     doc.setFontSize(7.5); doc.setFont("helvetica", "italic"); doc.setTextColor(140, 140, 140);
     const disclaimerLines = doc.splitTextToSize("DISCLAIMER / AVIS DE NON-RESPONSABILITÉ: This document was generated as a communication support tool. Edgewood Health Network (EHN) is not responsible for the outcome of any conversation, intervention, or decision made based on the content of this document. This is not a substitute for professional medical or psychological advice. / Ce document a été généré comme outil de soutien à la communication. Edgewood Health Network (EHN) n'est pas responsable des résultats de toute conversation, intervention ou décision prise sur la base de ce document. Ceci ne remplace pas un avis médical ou psychologique professionnel.", usableWidth);
-    disclaimerLines.forEach(l => { if (y + 4 < pageHeight - bottomMargin) { doc.text(l, margin, y); y += 4; } });
+    disclaimerLines.forEach(l => { y = checkPage(y, 5); doc.text(l, margin, y); y += 4; });
 
     addFooter();
     doc.save(cfg.file);
