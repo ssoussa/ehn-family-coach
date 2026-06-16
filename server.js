@@ -29,7 +29,7 @@ app.post("/api/generate", async (req, res) => {
       },
       body: JSON.stringify({
         model: "claude-sonnet-4-5-20250929",
-        max_tokens: 1024,
+        max_tokens: 4096,
         messages: [{ role: "user", content: prompt }],
       }),
     });
