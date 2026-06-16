@@ -579,11 +579,18 @@ Return ONLY the Plan B guide.`;
       if (letterData.letter && guideData.letter && smsData.letter && scriptData.letter && firstcallData.letter) {
         currentPatientName = patientName;
         currentSenderName = senderName;
-        document.getElementById("letterBody").textContent = letterData.letter;
-        document.getElementById("guideBody").textContent = guideData.letter;
+        window._rawOutputs = {
+          letter: letterData.letter,
+          guide: guideData.letter,
+          script: scriptData.letter,
+          planb: "",
+          firstcall: firstcallData.letter
+        };
+        document.getElementById("letterBody").innerHTML = renderMarkdown(letterData.letter);
+        document.getElementById("guideBody").innerHTML = renderMarkdown(guideData.letter);
         document.getElementById("smsBody").textContent = smsData.letter;
-        document.getElementById("scriptBody").textContent = scriptData.letter;
-        document.getElementById("firstcallBody").textContent = firstcallData.letter;
+        document.getElementById("scriptBody").innerHTML = renderMarkdown(scriptData.letter);
+        document.getElementById("firstcallBody").innerHTML = renderMarkdown(firstcallData.letter);
         document.getElementById("letterDate").textContent = new Date().toLocaleDateString("fr-CA", { year: "numeric", month: "long", day: "numeric" });
         document.getElementById("smsTime").textContent = new Date().toLocaleTimeString("fr-CA", { hour: "2-digit", minute: "2-digit" });
         document.getElementById("smsRecipient").textContent = patientName;
@@ -627,11 +634,55 @@ Return ONLY the Plan B guide.`;
       const res = await fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ prompt: buildPlanBPrompt(notes, senderName, patientName, whatHappened) }) });
       const data = await res.json();
       if (data.letter) {
-        document.getElementById("planbBody").textContent = data.letter;
+        window._rawOutputs = window._rawOutputs || {};
+        window._rawOutputs.planb = data.letter;
+        document.getElementById("planbBody").innerHTML = renderMarkdown(data.letter);
         document.getElementById("planbOutput").classList.remove("hidden");
       } else { alert("Error generating Plan B. Please try again. / Erreur. Veuillez réessayer."); }
     } catch(e) { alert("Connection error. / Erreur de connexion."); }
     finally { btn.disabled = false; btn.textContent = "🔄 Generate Plan B / Générer Plan B"; loading.classList.add("hidden"); }
+  }
+
+  function renderMarkdown(text) {
+    const lines = text.split("\n");
+    let html = "";
+    for (let i = 0; i < lines.length; i++) {
+      let line = lines[i];
+      // Headings
+      if (line.startsWith("### ")) {
+        html += `<h3 style="font-size:13px;font-weight:700;color:#2A7F7F;margin:16px 0 6px;">${escMd(line.slice(4))}</h3>`;
+      } else if (line.startsWith("## ")) {
+        html += `<h2 style="font-size:15px;font-weight:800;color:#0F1E35;margin:22px 0 8px;padding-left:10px;border-left:3px solid #2A7F7F;">${escMd(line.slice(3))}</h2>`;
+      } else if (line.startsWith("# ")) {
+        html += `<h1 style="font-size:18px;font-weight:800;color:#0F1E35;margin:24px 0 10px;">${escMd(line.slice(2))}</h1>`;
+      // Divider
+      } else if (line.match(/^---+$/)) {
+        html += `<hr style="border:none;border-top:1px solid #ddd;margin:18px 0;">`;
+      // Bullet
+      } else if (line.startsWith("- ") || line.startsWith("• ")) {
+        const content = inlineMd(line.replace(/^[-•] /, ""));
+        html += `<div style="display:flex;gap:8px;margin:4px 0;"><span style="color:#2A7F7F;font-weight:700;flex-shrink:0;">•</span><span>${content}</span></div>`;
+      // Bold-only line
+      } else if (line.match(/^\*\*(.+)\*\*$/)) {
+        html += `<p style="font-weight:700;color:#1a1a1a;margin:10px 0 4px;">${escMd(line.replace(/\*\*/g,""))}</p>`;
+      // Empty line
+      } else if (line.trim() === "") {
+        html += `<div style="height:10px;"></div>`;
+      // Normal paragraph
+      } else {
+        html += `<p style="margin:0 0 6px;line-height:1.8;">${inlineMd(line)}</p>`;
+      }
+    }
+    return html;
+  }
+
+  function escMd(t) { return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+  function inlineMd(t) {
+    t = t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    t = t.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+    t = t.replace(/\*(.+?)\*/g, "<em>$1</em>");
+    return t;
   }
 
   function downloadPDF(type) {
@@ -639,7 +690,7 @@ Return ONLY the Plan B guide.`;
     const doc = new jsPDF({ unit: "mm", format: "a4" });
     const map = { letter: { el: "letterBody", title: "Lettre d'intervention", file: "lettre-" + currentPatientName + ".pdf" }, guide: { el: "guideBody", title: "Guide de conversation", file: "guide-" + currentSenderName + ".pdf" }, script: { el: "scriptBody", title: "Script de conversation", file: "script-" + currentSenderName + ".pdf" }, planb: { el: "planbBody", title: "Plan B — Nouvelle stratégie", file: "planb-" + currentPatientName + ".pdf" }, firstcall: { el: "firstcallBody", title: "Guide — Premier appel", file: "firstcall-" + currentPatientName + ".pdf" } };
     const cfg = map[type];
-    const rawText = document.getElementById(cfg.el).textContent;
+    const rawText = (window._rawOutputs && window._rawOutputs[type]) || document.getElementById(cfg.el).textContent;
     const date = new Date().toLocaleDateString("fr-CA", { year: "numeric", month: "long", day: "numeric" });
     const margin = 22, pageWidth = 210, usableWidth = pageWidth - margin * 2, pageHeight = 297, bottomMargin = 22;
 
