@@ -28,7 +28,7 @@ app.post("/api/generate", async (req, res) => {
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
-        model: "claude-sonnet-4-5-20250929",
+        model: "claude-sonnet-4-6",
         max_tokens: 4096,
         messages: [{ role: "user", content: prompt }],
       }),
@@ -39,10 +39,16 @@ app.post("/api/generate", async (req, res) => {
     if (data.content?.[0]?.text) {
       res.json({ letter: data.content[0].text });
     } else {
-      res.status(500).json({ error: "Unexpected response from AI. Please try again." });
+      // Log the ACTUAL error from Anthropic's API rather than swallowing it.
+      // Previously this only showed a generic "Unexpected response" message
+      // with no way to diagnose what actually went wrong (e.g. a retired
+      // model ID, an invalid API key, a malformed request, etc).
+      console.error("Anthropic API returned unexpected shape:", JSON.stringify(data));
+      const errMsg = data.error?.message || "Unexpected response from AI. Please try again.";
+      res.status(500).json({ error: errMsg });
     }
   } catch (err) {
-    console.error(err);
+    console.error("Failed to reach Anthropic API:", err);
     res.status(500).json({ error: "Failed to connect to AI. Please try again." });
   }
 });
