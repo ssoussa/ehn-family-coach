@@ -796,6 +796,7 @@ Return ONLY the Plan B guide.`;
       if (cur.length) lines.push(cur);
       lines.forEach((ln, i) => {
         y = checkPage(y, lineH + 0.5);
+        doc.setFontSize(size); doc.setTextColor(color[0], color[1], color[2]); // a page break resets these via header/footer
         if (onLine) onLine(y, i);
         let cx = x;
         ln.forEach(p => { doc.setFont("helvetica", p.style); doc.text(p.text, cx, y); cx += p.w; });
