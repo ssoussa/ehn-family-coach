@@ -388,6 +388,8 @@ RULES:
 - 3-5 paragraphs, proper salutation and closing
 - Do NOT mention AI
 
+NO EMOJIS: Do not use any emojis or emoji-style symbols (no icons, checkmarks, arrows or pictograms) anywhere, including in headings. Plain text and markdown only.
+
 Return ONLY the letter.`;
   }
 
@@ -413,6 +415,8 @@ Sections to include:
 
 Make it specific to this person and situation. End with encouragement for ${senderName}.
 
+NO EMOJIS: Do not use any emojis or emoji-style symbols (no icons, checkmarks, arrows or pictograms) anywhere, including in headings. Plain text and markdown only.
+
 Return ONLY the guide.`;
   }
 
@@ -432,8 +436,10 @@ RULES:
 - Raw, human, direct — not formal
 - Must feel like a real text from a real person who loves them
 - End with the EHN number: 1-800-461-0140
-- No hashtags, no emojis unless very natural
+- No hashtags, no emojis
 - Do NOT mention AI
+
+NO EMOJIS: Do not use any emojis or emoji-style symbols (no icons, checkmarks, arrows or pictograms) anywhere, including in headings. Plain text and markdown only.
 
 Return ONLY the SMS text. Nothing else.`;
   }
@@ -458,6 +464,8 @@ FORMAT:
 - 4-6 paragraphs of spoken dialogue
 - Reference specific details from the notes
 - End with the EHN number: 1-800-461-0140
+
+NO EMOJIS: Do not use any emojis or emoji-style symbols (no icons, checkmarks, arrows or pictograms) anywhere, including in headings. Plain text and markdown only.
 
 Return ONLY the script.`;
   }
@@ -500,6 +508,8 @@ How to leave the door open, what to say, how to follow up without being pushy.
 Signs of acute crisis that require immediate escalation.
 
 Make every section specific to this person's substance, background, and situation. This guide is for internal admissions team use only.
+
+NO EMOJIS: Do not use any emojis or emoji-style symbols (no icons, checkmarks, arrows or pictograms) anywhere, including in headings. Plain text and markdown only.
 
 Return ONLY the guide.`;
   }
@@ -546,6 +556,8 @@ Signs that indicate they need to bring in a professional (and EHN can help with 
 
 ## Final message of encouragement for ${senderName}
 They tried. They're still fighting. Give them strength.
+
+NO EMOJIS: Do not use any emojis or emoji-style symbols (no icons, checkmarks, arrows or pictograms) anywhere, including in headings. Plain text and markdown only.
 
 Return ONLY the Plan B guide.`;
   }
@@ -649,18 +661,26 @@ Return ONLY the Plan B guide.`;
     for (let i = 0; i < lines.length; i++) {
       let line = lines[i];
       // Headings
-      if (line.startsWith("### ")) {
+      if (line.startsWith("#### ")) {
+        html += `<h4 style="font-size:12px;font-weight:700;color:#0F1E35;margin:14px 0 4px;">${inlineMd(line.slice(5))}</h4>`;
+      } else if (line.startsWith("### ")) {
         html += `<h3 style="font-size:13px;font-weight:700;color:#2A7F7F;margin:16px 0 6px;">${escMd(line.slice(4))}</h3>`;
       } else if (line.startsWith("## ")) {
         html += `<h2 style="font-size:15px;font-weight:800;color:#0F1E35;margin:22px 0 8px;padding-left:10px;border-left:3px solid #2A7F7F;">${escMd(line.slice(3))}</h2>`;
       } else if (line.startsWith("# ")) {
         html += `<h1 style="font-size:18px;font-weight:800;color:#0F1E35;margin:24px 0 10px;">${escMd(line.slice(2))}</h1>`;
+      // Blockquote
+      } else if (line.startsWith(">")) {
+        const q = line.replace(/^>\s?/, "");
+        html += q.trim() === ""
+          ? `<div style="height:6px;border-left:3px solid #2A7F7F;"></div>`
+          : `<p style="margin:0;padding:2px 0 2px 12px;border-left:3px solid #2A7F7F;font-style:italic;color:#333;line-height:1.7;">${inlineMd(q)}</p>`;
       // Divider
       } else if (line.match(/^---+$/)) {
         html += `<hr style="border:none;border-top:1px solid #ddd;margin:18px 0;">`;
       // Bullet
-      } else if (line.startsWith("- ") || line.startsWith("• ")) {
-        const content = inlineMd(line.replace(/^[-•] /, ""));
+      } else if (line.startsWith("- ") || line.startsWith("• ") || line.startsWith("* ")) {
+        const content = inlineMd(line.replace(/^[-•*] /, ""));
         html += `<div style="display:flex;gap:8px;margin:4px 0;"><span style="color:#2A7F7F;font-weight:700;flex-shrink:0;">•</span><span>${content}</span></div>`;
       // Bold-only line
       } else if (line.match(/^\*\*(.+)\*\*$/)) {
@@ -694,19 +714,94 @@ Return ONLY the Plan B guide.`;
     const date = new Date().toLocaleDateString("fr-CA", { year: "numeric", month: "long", day: "numeric" });
     const margin = 22, pageWidth = 210, usableWidth = pageWidth - margin * 2, pageHeight = 297, bottomMargin = 22;
 
+    // jsPDF's built-in Helvetica only knows Windows-1252 characters.
+    // Anything else (emojis, arrows, special spaces) prints as garbage AND
+    // makes jsPDF letter-space the whole line. Clean every line first.
+    const CP1252_EXTRA = "€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œžŸ";
+    function pdfSafe(t) {
+      t = t.replace(/[\u00A0\u2000-\u200A\u202F\u205F\u3000]/g, " ")
+           .replace(/[\u2010\u2011\u2012\u2212]/g, "-")
+           .replace(/[\u2192\u27A1\u2794]/g, "->")
+           .replace(/[\u2190]/g, "<-")
+           .replace(/[\u2713\u2714\u2705]/g, "")
+           .replace(/[\u200B-\u200D\u2060\uFE0E\uFE0F]/g, "");
+      let out = "";
+      for (const ch of t) {
+        const c = ch.codePointAt(0);
+        if ((c >= 32 && c <= 126) || (c >= 160 && c <= 255) || CP1252_EXTRA.includes(ch)) out += ch;
+      }
+      return out.replace(/ {2,}/g, " ");
+    }
+    function plain(t) { return t.replace(/\*\*(.+?)\*\*/g, "$1").replace(/\*(\S(?:.*?\S)?)\*/g, "$1").trim(); }
+
     function parseMarkdown(text) {
       const segs = [];
-      text.split("\n").forEach(line => {
-        if (line.startsWith("### ")) segs.push({ type: "h3", text: line.replace(/^### /, "") });
-        else if (line.startsWith("## ")) segs.push({ type: "h2", text: line.replace(/^## /, "") });
-        else if (line.startsWith("# ")) segs.push({ type: "h1", text: line.replace(/^# /, "") });
-        else if (line.match(/^\*\*(.+)\*\*$/)) segs.push({ type: "bold", text: line.replace(/\*\*/g, "") });
-        else if (line.startsWith("- ") || line.startsWith("• ")) segs.push({ type: "bullet", text: line.replace(/^[-•] /, "") });
-        else if (line.match(/^---+$/)) segs.push({ type: "divider" });
-        else if (line.trim() === "") segs.push({ type: "space" });
-        else segs.push({ type: "body", text: line.replace(/\*\*(.+?)\*\*/g, "$1") });
+      text.split("\n").forEach(raw => {
+        const line = pdfSafe(raw).replace(/\s+$/, "");
+        const t = line.trim();
+        if (/^#{1,6} /.test(t)) {
+          const lvl = t.match(/^#+/)[0].length;
+          segs.push({ type: lvl === 1 ? "h1" : lvl === 2 ? "h2" : lvl === 3 ? "h3" : "h4", text: plain(t.replace(/^#+ /, "")) });
+        }
+        else if (/^---+$/.test(t)) segs.push({ type: "divider" });
+        else if (t.startsWith(">")) segs.push({ type: "quote", text: t.replace(/^>\s?/, "") });
+        else if (/^[-•*] /.test(t)) segs.push({ type: "bullet", text: t.replace(/^[-•*] /, "") });
+        else if (/^\*\*[^*]+\*\*:?$/.test(t)) segs.push({ type: "bold", text: plain(t) });
+        else if (t === "") { if (!segs.length || segs[segs.length - 1].type !== "space") segs.push({ type: "space" }); }
+        else segs.push({ type: "body", text: t });
       });
       return segs;
+    }
+
+    // Split a line into runs: [{ text, style }] where style is normal/bold/italic/bolditalic
+    function inlineRuns(t, base) {
+      const runs = [];
+      const re = /\*\*(.+?)\*\*|\*(\S(?:.*?\S)?)\*/g;
+      let last = 0, m;
+      while ((m = re.exec(t)) !== null) {
+        if (m.index > last) runs.push({ text: t.slice(last, m.index), style: base });
+        if (m[1] !== undefined) runs.push({ text: m[1], style: base === "italic" ? "bolditalic" : "bold" });
+        else runs.push({ text: m[2], style: base === "bold" ? "bolditalic" : "italic" });
+        last = re.lastIndex;
+      }
+      if (last < t.length) runs.push({ text: t.slice(last), style: base });
+      return runs;
+    }
+
+    // Width without kerning (jsPDF measures with kerning but draws without, which squeezes spaces)
+    const widthCache = {};
+    function measure(t, style, size) {
+      doc.setFont("helvetica", style); doc.setFontSize(size);
+      let w = 0;
+      for (const ch of t) { const k = style + size + ch; if (widthCache[k] === undefined) widthCache[k] = doc.getTextWidth(ch); w += widthCache[k]; }
+      return w;
+    }
+
+    // Word-wrap mixed bold/italic text and draw it. Calls onLine(yTop) for each line (used for quote bars / bullets).
+    function drawRich(text, x, width, size, color, lineH, base, onLine) {
+      doc.setFontSize(size); doc.setTextColor(color[0], color[1], color[2]);
+      const words = [];
+      inlineRuns(text, base).forEach(r => r.text.split(/(\s+)/).forEach(w => { if (w) words.push({ text: /^\s+$/.test(w) ? " " : w, style: r.style }); }));
+      const lines = []; let cur = [], curW = 0;
+      words.forEach(w => {
+        const ww = measure(w.text, w.style, size);
+        if (w.text === " ") { if (cur.length) { cur.push({ ...w, w: ww }); curW += ww; } return; }
+        if (curW + ww > width && cur.length) {
+          while (cur.length && cur[cur.length - 1].text === " ") { curW -= cur.pop().w; }
+          lines.push(cur); cur = []; curW = 0;
+        }
+        cur.push({ ...w, w: ww }); curW += ww;
+      });
+      while (cur.length && cur[cur.length - 1].text === " ") cur.pop();
+      if (cur.length) lines.push(cur);
+      lines.forEach((ln, i) => {
+        y = checkPage(y, lineH + 0.5);
+        if (onLine) onLine(y, i);
+        let cx = x;
+        ln.forEach(p => { doc.setFont("helvetica", p.style); doc.text(p.text, cx, y); cx += p.w; });
+        y += lineH;
+      });
+      doc.setFont("helvetica", "normal");
     }
 
     function addHeader() {
@@ -726,16 +821,25 @@ Return ONLY the Plan B guide.`;
 
     addHeader();
     let y = 40;
+    const TEXT = [50, 50, 50], NAVY = [15, 30, 53], TEAL = [42, 127, 127];
     parseMarkdown(rawText).forEach(seg => {
       switch(seg.type) {
-        case "h1": doc.setFontSize(16); doc.setFont("helvetica", "bold"); doc.setTextColor(15, 30, 53); doc.splitTextToSize(seg.text, usableWidth).forEach(l => { y = checkPage(y, 9); doc.text(l, margin, y); y += 8; }); y += 2; break;
-        case "h2": y = checkPage(y, 14); y += 3; doc.setFillColor(42, 127, 127); doc.rect(margin, y - 5, 3, 8, "F"); doc.setFontSize(13); doc.setFont("helvetica", "bold"); doc.setTextColor(15, 30, 53); doc.splitTextToSize(seg.text, usableWidth - 6).forEach(l => { y = checkPage(y, 8); doc.text(l, margin + 6, y); y += 7; }); y += 3; break;
-        case "h3": doc.setFontSize(11); doc.setFont("helvetica", "bold"); doc.setTextColor(42, 127, 127); doc.splitTextToSize(seg.text, usableWidth).forEach(l => { y = checkPage(y, 7); doc.text(l, margin, y); y += 6; }); y += 1; break;
-        case "bold": doc.setFontSize(11); doc.setFont("helvetica", "bold"); doc.setTextColor(30, 30, 30); doc.splitTextToSize(seg.text, usableWidth).forEach(l => { y = checkPage(y, 7); doc.text(l, margin, y); y += 6; }); y += 1; break;
-        case "bullet": doc.setFontSize(10.5); doc.setFont("helvetica", "normal"); doc.setTextColor(50, 50, 50); const bl = doc.splitTextToSize(seg.text, usableWidth - 8); bl.forEach((l, i) => { y = checkPage(y, 6); if (i === 0) { doc.setFillColor(42, 127, 127); doc.circle(margin + 1.5, y - 1.5, 1, "F"); } doc.text(l, margin + 6, y); y += 5.5; }); y += 1; break;
-        case "divider": y += 3; doc.setDrawColor(200, 200, 200); doc.setLineWidth(0.3); doc.line(margin, y, pageWidth - margin, y); y += 5; break;
+        case "h1": y = checkPage(y, 12); drawRich(seg.text, margin, usableWidth, 16, NAVY, 8, "bold"); y += 2; break;
+        case "h2": y = checkPage(y, 16); y += 3; doc.setFontSize(13); doc.setFont("helvetica", "bold");
+          drawRich(seg.text, margin + 6, usableWidth - 6, 13, NAVY, 7, "bold", (ly) => { doc.setFillColor(42, 127, 127); doc.rect(margin, ly - 5, 3, 7, "F"); }); y += 3; break;
+        case "h3": y = checkPage(y, 12); y += 1; drawRich(seg.text, margin, usableWidth, 11.5, TEAL, 6, "bold"); y += 1; break;
+        case "h4": y = checkPage(y, 10); drawRich(seg.text, margin, usableWidth, 10.5, NAVY, 5.5, "bold"); y += 0.5; break;
+        case "bold": y = checkPage(y, 10); drawRich(seg.text, margin, usableWidth, 11, [30, 30, 30], 6, "bold"); y += 1; break;
+        case "bullet":
+          drawRich(seg.text, margin + 6, usableWidth - 6, 10.5, TEXT, 5.5, "normal", (ly, i) => { if (i === 0) { doc.setFillColor(42, 127, 127); doc.circle(margin + 1.5, ly - 1.5, 1, "F"); } });
+          y += 1; break;
+        case "quote":
+          if (seg.text.trim() === "") { y += 2; break; }
+          drawRich(seg.text, margin + 5, usableWidth - 5, 10.5, [60, 60, 60], 5.5, "italic", (ly) => { doc.setFillColor(42, 127, 127); doc.rect(margin, ly - 4.2, 1.2, 5.5, "F"); });
+          break;
+        case "divider": y = checkPage(y, 10); y += 3; doc.setDrawColor(200, 200, 200); doc.setLineWidth(0.3); doc.line(margin, y, pageWidth - margin, y); y += 5; break;
         case "space": y += 3; break;
-        case "body": doc.setFontSize(10.5); doc.setFont("helvetica", "normal"); doc.setTextColor(50, 50, 50); doc.splitTextToSize(seg.text, usableWidth).forEach(l => { y = checkPage(y, 6); doc.text(l, margin, y); y += 5.5; }); break;
+        case "body": drawRich(seg.text, margin, usableWidth, 10.5, TEXT, 5.5, "normal"); break;
       }
     });
     // Disclaimer at end
